@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>BurgerFlow - KDS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Montserrat:wght@600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-dim": "#dadada",
+                        "tertiary-fixed-dim": "#c8c6c5",
+                        "on-primary": "#ffffff",
+                        "primary": "#af101a",
+                        "tertiary": "#575757",
+                        "surface-variant": "#e2e2e2",
+                        "inverse-surface": "#2f3131",
+                        "tertiary-fixed": "#e5e2e1",
+                        "surface": "#f9f9f9",
+                        "primary-container": "#d32f2f",
+                        "on-secondary-container": "#653900",
+                        "surface-container": "#eeeeee",
+                        "secondary-container": "#ff9800",
+                        "on-secondary-fixed-variant": "#693c00",
+                        "inverse-primary": "#ffb3ac",
+                        "on-tertiary-fixed": "#1b1c1c",
+                        "surface-container-low": "#f3f3f3",
+                        "surface-bright": "#f9f9f9",
+                        "error": "#ba1a1a",
+                        "outline": "#8f6f6c",
+                        "on-background": "#1a1c1c",
+                        "outline-variant": "#e4beba",
+                        "on-error": "#ffffff",
+                        "primary-fixed": "#ffdad6",
+                        "on-secondary": "#ffffff",
+                        "surface-container-high": "#e8e8e8",
+                        "inverse-on-surface": "#f1f1f1",
+                        "surface-container-highest": "#e2e2e2",
+                        "on-surface": "#1a1c1c",
+                        "on-primary-fixed": "#410003",
+                        "secondary-fixed": "#ffdcbe",
+                        "secondary-fixed-dim": "#ffb870",
+                        "on-tertiary-fixed-variant": "#474746",
+                        "surface-tint": "#ba1a20",
+                        "on-tertiary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-primary-container": "#fff2f0",
+                        "primary-fixed-dim": "#ffb3ac",
+                        "tertiary-container": "#706f6f",
+                        "background": "#f9f9f9",
+                        "on-secondary-fixed": "#2c1600",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed-variant": "#930010",
+                        "secondary": "#8b5000",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-container": "#f6f3f3",
+                        "on-surface-variant": "#5b403d"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "8px",
+                        "md": "24px",
+                        "sm": "12px",
+                        "margin-desktop": "32px",
+                        "margin-mobile": "16px",
+                        "xl": "64px",
+                        "lg": "40px",
+                        "xs": "4px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Montserrat"],
+                        "body-md": ["Inter"],
+                        "label-lg": ["Inter"],
+                        "display-lg": ["Montserrat"],
+                        "label-md": ["Inter"],
+                        "headline-lg-mobile": ["Montserrat"],
+                        "headline-lg": ["Montserrat"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        /* Custom scrollbar for columns */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #e2e2e2; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #c8c6c5; }
+        body { background-color: #f5f5f5; }
+    </style>
+</head>
+<body class="bg-[#F5F5F5] h-screen overflow-hidden flex flex-col font-body-md text-on-surface">
+<!-- Top Navigation Bar -->
+<header class="bg-surface border-b-2 border-surface-variant flex justify-between items-center w-full px-margin-desktop py-base sticky top-0 z-40">
+<div class="flex items-center gap-md">
+<a href="../index.html" class="font-headline-lg text-headline-lg font-black text-primary">BurgerFlow</a>
+<span class="font-label-lg text-label-lg text-on-surface-variant bg-surface-container px-sm py-xs rounded-full flex items-center gap-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">restaurant</span>
+                Monitor de cocina
+            </span>
+</div>
+<div class="flex items-center gap-md">
+<button class="text-on-surface-variant hover:bg-surface-container-low p-2 rounded-full transition-all duration-200">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="flex items-center gap-sm">
+<span class="font-label-lg text-label-lg text-on-surface">Downtown Branch</span>
+<div class="w-10 h-10 rounded-full bg-surface-container-high overflow-hidden border-2 border-surface-variant">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="A close-up shot of a fast-food worker's uniform badge or a subtle, abstract representation of a busy kitchen environment. Bright, even lighting. Crisp and clean aesthetic, fitting for a modern restaurant management dashboard avatar." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIA5_Epl4CatUBJd4-SMQsz1R7PB3htUMLdIxHgysuYXiGEsoVgTZ7kZnM9u7EGi9lITz7hKUQuOGgvIKov7nexJ6BlLlXwDhLgIaoh-aK4rj1kgWW-ejJDHMM1UB_4ovCR5Q19xmnDhxumn0EzAuIAMHMfVz1Am0LHVFmkbPvif_ew2Ji-ptvxkzBdWujgYu2z3ap0k7UEvKoTHcdQbcRR8iri4Uwxx0gB_YwXQT7DApkheP-ZKRJ"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main KDS Board -->
+<main class="flex-1 flex gap-gutter p-md overflow-hidden bg-[#F5F5F5]">
+<!-- Column 1: Nuevos -->
+<section class="flex-1 flex flex-col gap-sm bg-surface-container-low rounded-xl p-sm border border-surface-variant">
+<div class="flex justify-between items-center px-sm py-xs border-b border-surface-variant pb-sm">
+<h2 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+                    Nuevos
+                    <span class="bg-primary text-on-primary font-label-lg text-label-lg px-2 py-1 rounded-full">4</span>
+</h2>
+</div>
+<div class="flex-1 min-h-0 overflow-y-auto pr-2 pt-2 flex flex-col gap-sm">
+<!-- Order Card: New (Green indicator implicitly or neutral) -->
+<article class="bg-surface rounded-lg shadow-[0px_4px_12px_rgba(33,33,33,0.08)] border-t-8 border-[#4CAF50] p-sm flex flex-col gap-sm transition-transform hover:scale-[1.01]">
+<div class="flex justify-between items-start border-b border-surface-variant pb-xs">
+<div>
+<span class="font-headline-md text-headline-md">#4092</span>
+<span class="font-label-md text-label-md text-on-surface-variant block mt-1">Dine-in • Table 12</span>
+</div>
+<div class="text-right">
+<span class="font-label-lg text-label-lg text-on-surface bg-surface-container px-2 py-1 rounded-md">12:15 PM</span>
+<span class="font-label-md text-label-md text-tertiary block mt-1">1 min ago</span>
+</div>
+</div>
+<ul class="flex flex-col gap-2 font-body-lg text-body-lg">
+<li class="flex items-start gap-2">
+<span class="font-bold">1x</span>
+<div>
+                                Classic Smash Burger
+                                <ul class="text-error font-bold font-label-lg text-label-lg mt-1 pl-2 border-l-2 border-error">
+<li>SIN CEBOLLA</li>
+<li>EXTRA QUESO</li>
+</ul>
+</div>
+</li>
+<li class="flex items-start gap-2 border-t border-surface-variant pt-2">
+<span class="font-bold">2x</span>
+<span>Fries (Large)</span>
+</li>
+</ul>
+<div class="mt-auto pt-sm">
+<button class="w-full bg-primary-container text-on-primary font-label-lg text-label-lg h-[56px] rounded-md shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">play_arrow</span>
+                            Aceptar
+                        </button>
+</div>
+</article>
+<!-- Order Card: New -->
+<article class="bg-surface rounded-lg shadow-[0px_4px_12px_rgba(33,33,33,0.08)] border-t-8 border-[#4CAF50] p-sm flex flex-col gap-sm transition-transform hover:scale-[1.01]">
+<div class="flex justify-between items-start border-b border-surface-variant pb-xs">
+<div>
+<span class="font-headline-md text-headline-md">#4093</span>
+<span class="font-label-md text-label-md text-on-surface-variant block mt-1">Takeaway</span>
+</div>
+<div class="text-right">
+<span class="font-label-lg text-label-lg text-on-surface bg-surface-container px-2 py-1 rounded-md">12:16 PM</span>
+<span class="font-label-md text-label-md text-tertiary block mt-1">Just now</span>
+</div>
+</div>
+<ul class="flex flex-col gap-2 font-body-lg text-body-lg">
+<li class="flex items-start gap-2">
+<span class="font-bold">1x</span>
+<span>Spicy Chicken Sandwich</span>
+</li>
+<li class="flex items-start gap-2 border-t border-surface-variant pt-2">
+<span class="font-bold">1x</span>
+<span>Aros de cebolla</span>
+</li>
+</ul>
+<div class="mt-auto pt-sm">
+<button class="w-full bg-primary-container text-on-primary font-label-lg text-label-lg h-[56px] rounded-md shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">play_arrow</span>
+                            Aceptar
+                        </button>
+</div>
+</article>
+</div>
+</section>
+<!-- Column 2: En Preparación -->
+<section class="flex-1 flex flex-col gap-sm bg-surface-container-low rounded-xl p-sm border border-surface-variant">
+<div class="flex justify-between items-center px-sm py-xs border-b border-surface-variant pb-sm">
+<h2 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+                    En Preparación
+                    <span class="bg-secondary-container text-on-secondary-container font-label-lg text-label-lg px-2 py-1 rounded-full">3</span>
+</h2>
+</div>
+<div class="flex-1 min-h-0 overflow-y-auto pr-2 pt-2 flex flex-col gap-sm">
+<!-- Order Card: Warning/Late (Red Border) -->
+<article class="bg-error-container/30 rounded-lg shadow-[0px_4px_12px_rgba(33,33,33,0.08)] border-4 border-primary p-sm flex flex-col gap-sm" data-age-minutes="26">
+<div class="flex justify-between items-start border-b border-surface-variant pb-xs">
+<div>
+<span class="font-headline-md text-headline-md text-primary">#4085</span>
+<span class="font-label-md text-label-md text-on-surface-variant block mt-1">Delivery • UberEats</span>
+</div>
+<div class="text-right">
+<span class="font-label-lg text-label-lg text-on-error bg-error px-2 py-1 rounded-md animate-pulse">11:50 AM</span>
+<span class="font-label-md text-label-md text-error font-bold block mt-1">26 min ago</span>
+</div>
+</div>
+<ul class="flex flex-col gap-2 font-body-lg text-body-lg">
+<li class="flex items-start gap-2">
+<span class="font-bold">3x</span>
+<div>
+                                Double Bacon Burger
+                                <ul class="text-error font-bold font-label-lg text-label-lg mt-1 pl-2 border-l-2 border-error">
+<li>1x SIN TOCINO</li>
+<li>2x SALSA APARTE</li>
+</ul>
+</div>
+</li>
+<li class="flex items-start gap-2 border-t border-surface-variant pt-2">
+<span class="font-bold">3x</span>
+<span>Fries (Medium)</span>
+</li>
+<li class="flex items-start gap-2 border-t border-surface-variant pt-2">
+<span class="font-bold">3x</span>
+<span>Vanilla Shake</span>
+</li>
+</ul>
+<div class="mt-auto pt-sm">
+<button class="w-full bg-[#4CAF50] text-on-primary font-label-lg text-label-lg h-[56px] rounded-md shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">check_circle</span>
+                            Listo para Despacho
+                        </button>
+</div>
+</article>
+<!-- Order Card: Preparing (Orange Border) -->
+<article class="bg-surface rounded-lg shadow-[0px_4px_12px_rgba(33,33,33,0.08)] border-t-8 border-secondary-container p-sm flex flex-col gap-sm">
+<div class="flex justify-between items-start border-b border-surface-variant pb-xs">
+<div>
+<span class="font-headline-md text-headline-md">#4089</span>
+<span class="font-label-md text-label-md text-on-surface-variant block mt-1">Dine-in • Table 4</span>
+</div>
+<div class="text-right">
+<span class="font-label-lg text-label-lg text-on-surface bg-surface-container px-2 py-1 rounded-md">12:05 PM</span>
+<span class="font-label-md text-label-md text-secondary block mt-1">11 min ago</span>
+</div>
+</div>
+<ul class="flex flex-col gap-2 font-body-lg text-body-lg">
+<li class="flex items-start gap-2">
+<span class="font-bold">1x</span>
+<span>Veggie Burger</span>
+</li>
+<li class="flex items-start gap-2 border-t border-surface-variant pt-2">
+<span class="font-bold">1x</span>
+<span>Sweet Potato Fries</span>
+</li>
+</ul>
+<div class="mt-auto pt-sm">
+<button class="w-full bg-[#4CAF50] text-on-primary font-label-lg text-label-lg h-[56px] rounded-md shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">check_circle</span>
+                            Listo para Despacho
+                        </button>
+</div>
+</article>
+</div>
+</section>
+<!-- Column 3: Listos -->
+<section class="flex-1 flex flex-col gap-sm bg-surface-container-low rounded-xl p-sm border border-surface-variant opacity-80">
+<div class="flex justify-between items-center px-sm py-xs border-b border-surface-variant pb-sm">
+<h2 class="font-headline-md text-headline-md text-tertiary flex items-center gap-2">
+                    Listos
+                    <span class="bg-surface-variant text-tertiary font-label-lg text-label-lg px-2 py-1 rounded-full">5</span>
+</h2>
+</div>
+<div class="flex-1 min-h-0 overflow-y-auto pr-2 pt-2 flex flex-col gap-sm">
+<!-- Order Card: Ready (Dimmed) -->
+<article class="bg-surface-container-lowest rounded-lg border border-surface-variant p-sm flex flex-col gap-sm">
+<div class="flex justify-between items-start border-b border-surface-variant pb-xs">
+<div>
+<span class="font-headline-md text-headline-md text-tertiary line-through decoration-2">#4080</span>
+<span class="font-label-md text-label-md text-tertiary block mt-1">Takeaway • Pick-up</span>
+</div>
+<div class="text-right">
+<span class="font-label-lg text-label-lg text-tertiary bg-surface-variant px-2 py-1 rounded-md">11:45 AM</span>
+</div>
+</div>
+<ul class="flex flex-col gap-1 font-body-md text-tertiary">
+<li class="flex items-start gap-2">
+<span class="font-bold">2x</span>
+<span>Kids Meal - Cheeseburger</span>
+</li>
+</ul>
+<div class="mt-2 text-center text-label-md font-label-md text-tertiary">
+                        Esperando recolección...
+                    </div>
+</article>
+<!-- Order Card: Ready (Dimmed) -->
+<article class="bg-surface-container-lowest rounded-lg border border-surface-variant p-sm flex flex-col gap-sm">
+<div class="flex justify-between items-start border-b border-surface-variant pb-xs">
+<div>
+<span class="font-headline-md text-headline-md text-tertiary line-through decoration-2">#4081</span>
+<span class="font-label-md text-label-md text-tertiary block mt-1">Delivery • DoorDash</span>
+</div>
+<div class="text-right">
+<span class="font-label-lg text-label-lg text-tertiary bg-surface-variant px-2 py-1 rounded-md">11:48 AM</span>
+</div>
+</div>
+<ul class="flex flex-col gap-1 font-body-md text-tertiary">
+<li class="flex items-start gap-2">
+<span class="font-bold">1x</span>
+<span>Mushroom Swiss Burger</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="font-bold">1x</span>
+<span>Fries (Small)</span>
+</li>
+</ul>
+<div class="mt-2 text-center text-label-md font-label-md text-tertiary">
+                        Driver arrived
+                    </div>
+</article>
+</div>
+</section>
+</main>
+<script src="../navigation.js?v=3"></script>
+</body></html>

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>BurgerFlow - Inventario</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-dim": "#dadada",
+                        "tertiary-fixed-dim": "#c8c6c5",
+                        "on-primary": "#ffffff",
+                        "primary": "#af101a",
+                        "tertiary": "#575757",
+                        "surface-variant": "#e2e2e2",
+                        "inverse-surface": "#2f3131",
+                        "tertiary-fixed": "#e5e2e1",
+                        "surface": "#f9f9f9",
+                        "primary-container": "#d32f2f",
+                        "on-secondary-container": "#653900",
+                        "surface-container": "#eeeeee",
+                        "secondary-container": "#ff9800",
+                        "on-secondary-fixed-variant": "#693c00",
+                        "inverse-primary": "#ffb3ac",
+                        "on-tertiary-fixed": "#1b1c1c",
+                        "surface-container-low": "#f3f3f3",
+                        "surface-bright": "#f9f9f9",
+                        "error": "#ba1a1a",
+                        "outline": "#8f6f6c",
+                        "on-background": "#1a1c1c",
+                        "outline-variant": "#e4beba",
+                        "on-error": "#ffffff",
+                        "primary-fixed": "#ffdad6",
+                        "on-secondary": "#ffffff",
+                        "surface-container-high": "#e8e8e8",
+                        "inverse-on-surface": "#f1f1f1",
+                        "surface-container-highest": "#e2e2e2",
+                        "on-surface": "#1a1c1c",
+                        "on-primary-fixed": "#410003",
+                        "secondary-fixed": "#ffdcbe",
+                        "secondary-fixed-dim": "#ffb870",
+                        "on-tertiary-fixed-variant": "#474746",
+                        "surface-tint": "#ba1a20",
+                        "on-tertiary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-primary-container": "#fff2f0",
+                        "primary-fixed-dim": "#ffb3ac",
+                        "tertiary-container": "#706f6f",
+                        "background": "#f9f9f9",
+                        "on-secondary-fixed": "#2c1600",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed-variant": "#930010",
+                        "secondary": "#8b5000",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-container": "#f6f3f3",
+                        "on-surface-variant": "#5b403d"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "8px",
+                        "md": "24px",
+                        "sm": "12px",
+                        "margin-desktop": "32px",
+                        "margin-mobile": "16px",
+                        "xl": "64px",
+                        "lg": "40px",
+                        "xs": "4px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Montserrat"],
+                        "body-md": ["Inter"],
+                        "label-lg": ["Inter"],
+                        "display-lg": ["Montserrat"],
+                        "label-md": ["Inter"],
+                        "headline-lg-mobile": ["Montserrat"],
+                        "headline-lg": ["Montserrat"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f9f9f9; color: #1a1c1c; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 1; }
+    </style>
+</head>
+<body class="flex bg-background text-on-background h-screen overflow-hidden">
+<!-- SideNavBar -->
+<nav class="bg-inverse-surface dark:bg-inverse-surface h-screen w-64 fixed left-0 top-0 shadow-md flex flex-col h-full py-base z-50">
+<div class="px-margin-desktop py-md">
+<h1 class="font-headline-md text-headline-md font-bold text-on-primary">BurgerFlow</h1>
+<p class="font-body-md text-body-md text-surface-variant">Downtown Branch</p>
+</div>
+<div class="px-margin-desktop mb-md">
+<button class="w-full bg-primary-container text-on-primary font-label-lg text-label-lg py-sm px-md rounded-full shadow-md hover:bg-primary transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">add</span>
+                Nuevo pedido
+            </button>
+</div>
+<ul class="flex flex-col gap-1 flex-1 min-h-0 overflow-hidden pb-6 font-body-md text-body-md text-primary dark:text-primary-fixed">
+<li><a class="flex items-center gap-3 px-4 py-3 text-surface-variant hover:text-on-primary-fixed hover:bg-tertiary-container transition-colors active:scale-95 transition-transform" href="#"><span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>Panel principal</a></li>
+<li><a class="flex items-center gap-3 px-4 py-3 text-surface-variant hover:text-on-primary-fixed hover:bg-tertiary-container transition-colors active:scale-95 transition-transform" href="#"><span class="material-symbols-outlined" data-icon="payments">payments</span>Ventas</a></li>
+<li><a class="flex items-center gap-3 px-4 py-3 text-surface-variant hover:text-on-primary-fixed hover:bg-tertiary-container transition-colors active:scale-95 transition-transform" href="#"><span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>Pedidos</a></li>
+<li><a class="flex items-center gap-3 px-4 py-3 border-l-4 border-primary bg-surface-container-highest text-on-surface font-bold hover:bg-tertiary-container transition-colors active:scale-95 transition-transform" href="#"><span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>Inventario</a></li>
+<li><a class="flex items-center gap-3 px-4 py-3 text-surface-variant hover:text-on-primary-fixed hover:bg-tertiary-container transition-colors active:scale-95 transition-transform" href="#"><span class="material-symbols-outlined" data-icon="restaurant_menu">restaurant_menu</span>Menú</a></li>
+<li><a class="flex items-center gap-3 px-4 py-3 text-surface-variant hover:text-on-primary-fixed hover:bg-tertiary-container transition-colors active:scale-95 transition-transform" href="#"><span class="material-symbols-outlined" data-icon="kitchen">kitchen</span>Cocina</a></li>
+<li><a class="flex items-center gap-3 px-4 py-3 text-surface-variant hover:text-on-primary-fixed hover:bg-tertiary-container transition-colors active:scale-95 transition-transform" href="#"><span class="material-symbols-outlined" data-icon="local_shipping">local_shipping</span>Delivery</a></li>
+<li><a class="flex items-center gap-3 px-4 py-3 text-surface-variant hover:text-on-primary-fixed hover:bg-tertiary-container transition-colors active:scale-95 transition-transform" href="#"><span class="material-symbols-outlined" data-icon="assessment">assessment</span>Reportes</a></li>
+<li><a class="flex items-center gap-3 px-4 py-3 text-surface-variant hover:text-on-primary-fixed hover:bg-tertiary-container transition-colors active:scale-95 transition-transform" href="#"><span class="material-symbols-outlined" data-icon="settings">settings</span>Configuración</a></li>
+</ul>
+<div class="p-4 mt-auto">
+<div class="flex items-center gap-3 text-surface-variant">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-surface-dim">
+<img alt="BurgerFlow Admin Profile" class="w-full h-full object-cover" data-alt="A professional headshot of a restaurant manager in a brightly lit modern kitchen setting. The individual is wearing a dark charcoal uniform, smiling confidently. High-key lighting, sharp focus, corporate modern aesthetic with warm, optimistic undertones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB02Ze2lA4F9usa0PP9vRJxMBVYT6A57V2I5UxVyHVA85b0Bo7iA8QvhbdoJGEpYXyU174Bs7G__ytMK28zjf6xFSop80-z7oiSS8ECCQ-h-FxQf-5Poq5-ogfx7HFqOfSasI0GbfGjVKloW023U97aXtbH9XGmgjKJ3CIv0stY-l6ZaFz6uuvagROpXCsLasoZqfA1GUjGY_kR5O3UDXVVn8pL5t_1W15SOAL0uGGXPFbOu-6DECr8"/>
+</div>
+<div class="font-label-md text-label-md">Admin User</div>
+</div>
+</div>
+</nav>
+<!-- Main Canvas -->
+<main class="flex-1 ml-64 flex flex-col h-screen overflow-hidden">
+<!-- TopNavBar (Embedded conceptually for context, modified to act as page header) -->
+<header class="bg-surface dark:bg-surface-container flex justify-between items-center w-full px-margin-desktop py-md border-b-2 border-surface-variant sticky top-0 z-40">
+<h2 class="font-headline-lg text-headline-lg font-bold text-on-surface">Inventario</h2>
+<div class="flex items-center gap-md">
+<div class="relative w-80">
+<span class="material-symbols-outlined absolute left-3 top-1/2 transform -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full pl-10 pr-4 py-2 border-2 border-surface-variant rounded-lg font-body-md text-body-md focus:outline-none focus:border-primary focus:ring-0 bg-surface-container-lowest" placeholder="Buscar productos..." type="text"/>
+</div>
+<button class="bg-primary-container text-on-primary font-label-lg text-label-lg py-3 px-6 rounded-lg shadow-[0px_4px_12px_rgba(33,33,33,0.08)] hover:shadow-md transition-shadow flex items-center gap-2">
+<span class="material-symbols-outlined">add</span>
+                    Agregar Producto
+                </button>
+</div>
+</header>
+<!-- Content Area -->
+<div class="p-margin-desktop min-w-0 overflow-y-auto flex-1 bg-surface-container-low">
+<div class="bg-surface-container-lowest rounded-xl shadow-[0px_4px_12px_rgba(33,33,33,0.08)] overflow-hidden">
+<div class="w-full overflow-x-auto"><table class="w-full text-left border-collapse">
+<thead class="bg-surface-container font-label-lg text-label-lg text-on-surface uppercase border-b-2 border-surface-variant">
+<tr>
+<th class="px-md py-4">Producto</th>
+<th class="px-md py-4">Categoría</th>
+<th class="px-md py-4">Stock Actual</th>
+<th class="px-md py-4">Unidad</th>
+<th class="px-md py-4">Estado</th>
+<th class="px-md py-4 text-right min-w-[120px]">Acciones</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-body-md text-on-surface divide-y divide-surface-variant">
+<!-- Row 1: Bajo -->
+<tr class="hover:bg-surface transition-colors">
+<td class="px-md py-4 flex items-center gap-sm">
+<div class="w-12 h-12 rounded bg-surface-dim overflow-hidden flex-shrink-0">
+<img alt="Pan Brioche" class="w-full h-full object-cover" data-alt="A close-up shot of golden-brown brioche burger buns stacked neatly on a stainless steel prep table. Bright overhead kitchen lighting highlights the glossy crust. The setting is a clean, modern commercial kitchen. Corporate modern photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3wV98QOabM9AdOuNf1FyREm47upkAKErRXMbOVYf8cdVPBAUIveEJziBQoHS_b5yYVGX7dW_0NmzSJFgPA4dZQjfZlw6Eaoa92Cmrnju0R36f0oHP_WhWRn-s31iNjbAIv-hQmzIGxnVo-XNnfqmUjTFjfW0H2OAzU5019IMkLuRBCUjXEJT7GagZ449SzQ3Cy98-iS9PMQwlNsrIs15Nd-Krf-Inq0raTRLcQsjWLqMiSC14Pq-J"/>
+</div>
+<span class="font-semibold">Pan Brioche</span>
+</td>
+<td class="px-md py-4 text-on-surface-variant">Panadería</td>
+<td class="px-md py-4 font-headline-md text-headline-md">120</td>
+<td class="px-md py-4 text-on-surface-variant">Unidades</td>
+<td class="px-md py-4">
+<span class="inline-block px-3 py-1 bg-secondary-container text-on-secondary-container rounded-full font-label-lg text-label-lg uppercase">Bajo</span>
+</td>
+<td class="px-md py-4 text-right">
+<div class="flex justify-end gap-2 text-on-surface-variant">
+<button class="p-2 hover:bg-surface-container rounded-full hover:text-primary transition-colors"><span class="material-symbols-outlined">edit</span></button>
+<button class="p-2 hover:bg-surface-container rounded-full hover:text-error transition-colors"><span class="material-symbols-outlined">delete</span></button>
+</div>
+</td>
+</tr>
+<!-- Row 2: Suficiente -->
+<tr class="hover:bg-surface transition-colors">
+<td class="px-md py-4 flex items-center gap-sm">
+<div class="w-12 h-12 rounded bg-surface-dim overflow-hidden flex-shrink-0">
+<img alt="Carne de Res 150g" class="w-full h-full object-cover" data-alt="A top-down view of perfectly portioned 150g raw beef burger patties arranged systematically on white parchment paper. The setting is a sterile, well-lit commercial kitchen environment. Clean, precise, high-resolution photography suitable for a modern SaaS interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-u4tXH-I7x9IKDhbyrByoIjxTRwMisEpiwECqNHNDlOVKuEwOr5IxKWLsiWC7MqjHCkcgJ-mt0W1FMBujQNc3JV3axn7ugQAjhJgkCwpIsY89Kd62LGaI7Uwo5WwPrMzGsnq-tx9SpSRUHmf-6-BEML73ivZyks3zZ8unsJh3AgHXgivBafMB0rhO_FMa2zEGekc1qip6HXcOHhILPlSeHNvvOuwBPJWTVODOyozTsHiLxUaZ1qp9"/>
+</div>
+<span class="font-semibold">Carne de Res 150g</span>
+</td>
+<td class="px-md py-4 text-on-surface-variant">Proteínas</td>
+<td class="px-md py-4 font-headline-md text-headline-md">350</td>
+<td class="px-md py-4 text-on-surface-variant">Unidades</td>
+<td class="px-md py-4">
+<span class="inline-block px-3 py-1 bg-[#4CAF50] text-white rounded-full font-label-lg text-label-lg uppercase">Suficiente</span>
+</td>
+<td class="px-md py-4 text-right">
+<div class="flex justify-end gap-2 text-on-surface-variant">
+<button class="p-2 hover:bg-surface-container rounded-full hover:text-primary transition-colors"><span class="material-symbols-outlined">edit</span></button>
+<button class="p-2 hover:bg-surface-container rounded-full hover:text-error transition-colors"><span class="material-symbols-outlined">delete</span></button>
+</div>
+</td>
+</tr>
+<!-- Row 3: Agotado -->
+<tr class="hover:bg-surface transition-colors bg-error-container/10">
+<td class="px-md py-4 flex items-center gap-sm">
+<div class="w-12 h-12 rounded bg-surface-dim overflow-hidden flex-shrink-0 opacity-50 grayscale">
+<img alt="Tocino Ahumado" class="w-full h-full object-cover" data-alt="Thick-cut smoked bacon strips laid out on a baking sheet, ready for the oven. Commercial kitchen setting with stainless steel surfaces. Bright, clear lighting capturing the texture of the bacon. Modern culinary photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBm-cMidtOe5rKV1XsHVohKl6s467DXQ2V6HmEvZoEEPFMOFqjUpMvwm6t01mvNTbz6PDpBio6TOqvDvqYdAt3Ikqh3CAbqCzDtsSTYp0F2ny2MxokIjqHjkn3nmms70Xa69qIJa04tTOgdwfF-ghvBnaC4_oLxCE3JLhzYrJlVJ9LFln8LoOjSzuf2EI3ki733C8ljIUeeBmw-Zkh7x_mMBiPPKQudiFSUwa8ajys6Zn5TGDy54BuR"/>
+</div>
+<span class="font-semibold text-error">Tocino Ahumado</span>
+</td>
+<td class="px-md py-4 text-on-surface-variant">Extras</td>
+<td class="px-md py-4 font-headline-md text-headline-md text-error">0</td>
+<td class="px-md py-4 text-on-surface-variant">Kilogramos</td>
+<td class="px-md py-4">
+<span class="inline-block px-3 py-1 bg-error text-on-error rounded-full font-label-lg text-label-lg uppercase">Agotado</span>
+</td>
+<td class="px-md py-4 text-right">
+<div class="flex justify-end gap-2 text-on-surface-variant">
+<button class="p-2 hover:bg-surface-container rounded-full hover:text-primary transition-colors"><span class="material-symbols-outlined">edit</span></button>
+<button class="p-2 hover:bg-surface-container rounded-full hover:text-error transition-colors"><span class="material-symbols-outlined">delete</span></button>
+</div>
+</td>
+</tr>
+</tbody>
+</table></div>
+<div class="px-md py-4 pb-8 bg-surface-container border-t-2 border-surface-variant flex justify-between items-center text-on-surface-variant font-label-md text-label-md">
+<span>Mostrando 3 de 48 productos</span>
+<div class="flex gap-2">
+<button class="px-3 py-1 rounded bg-surface-container-highest hover:bg-surface-variant disabled:opacity-50 text-on-surface">Anterior</button>
+<button class="px-3 py-1 rounded bg-surface-container-highest hover:bg-surface-variant text-on-surface">Siguiente</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script src="../navigation.js?v=3"></script>
+<script>
+        const addProductButton = [...document.querySelectorAll('button')].find((button) => button.textContent.includes('Agregar Producto'));
+        const inventoryBody = document.querySelector('tbody');
+        addProductButton?.addEventListener('click', () => {
+            if (document.getElementById('inventoryForm')) return;
+            const form = document.createElement('form');
+            form.id = 'inventoryForm';
+            form.className = 'fixed inset-0 z-[70] flex items-center justify-center bg-black/40 p-4';
+            form.innerHTML = '<div class="w-full max-w-md rounded-xl bg-white p-6 shadow-2xl"><h2 class="font-headline-md mb-4">Agregar producto</h2><div class="grid gap-3"><input name="name" required placeholder="Nombre del producto" class="border-2 border-surface-variant rounded-lg p-3"><input name="category" required placeholder="Categoría" class="border-2 border-surface-variant rounded-lg p-3"><input name="stock" required min="0" type="number" placeholder="Stock actual" class="border-2 border-surface-variant rounded-lg p-3"><input name="unit" required placeholder="Unidad" class="border-2 border-surface-variant rounded-lg p-3"></div><div class="mt-5 flex justify-end gap-2"><button type="button" data-cancel class="rounded-lg border-2 border-surface-variant px-4 py-2">Cancelar</button><button class="rounded-lg bg-primary-container px-4 py-2 text-white">Guardar</button></div></div>';
+            document.body.appendChild(form);
+            form.querySelector('[data-cancel]').addEventListener('click', () => form.remove());
+            form.addEventListener('submit', (event) => {
+                event.preventDefault();
+                const data = new FormData(form);
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-surface transition-colors';
+                row.innerHTML = `<td class="px-md py-4 font-semibold">${data.get('name')}</td><td class="px-md py-4 text-on-surface-variant">${data.get('category')}</td><td class="px-md py-4 font-headline-md">${data.get('stock')}</td><td class="px-md py-4 text-on-surface-variant">${data.get('unit')}</td><td class="px-md py-4"><span class="inline-block rounded-full bg-[#4CAF50] px-3 py-1 text-white">Suficiente</span></td><td class="px-md py-4 text-right">Nuevo</td>`;
+                inventoryBody.appendChild(row);
+                form.remove();
+            });
+        });
+    </script>
+</body></html>

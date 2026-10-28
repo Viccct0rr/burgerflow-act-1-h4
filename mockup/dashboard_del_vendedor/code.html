@@ -1,0 +1,363 @@
+<!DOCTYPE html><html class="light" lang="es"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>BurgerFlow - Index</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-dim": "#dadada",
+                        "tertiary-fixed-dim": "#c8c6c5",
+                        "on-primary": "#ffffff",
+                        "primary": "#af101a",
+                        "tertiary": "#575757",
+                        "surface-variant": "#e2e2e2",
+                        "inverse-surface": "#2f3131",
+                        "tertiary-fixed": "#e5e2e1",
+                        "surface": "#f9f9f9",
+                        "primary-container": "#d32f2f",
+                        "on-secondary-container": "#653900",
+                        "surface-container": "#eeeeee",
+                        "secondary-container": "#ff9800",
+                        "on-secondary-fixed-variant": "#693c00",
+                        "inverse-primary": "#ffb3ac",
+                        "on-tertiary-fixed": "#1b1c1c",
+                        "surface-container-low": "#f3f3f3",
+                        "surface-bright": "#f9f9f9",
+                        "error": "#ba1a1a",
+                        "outline": "#8f6f6c",
+                        "on-background": "#1a1c1c",
+                        "outline-variant": "#e4beba",
+                        "on-error": "#ffffff",
+                        "primary-fixed": "#ffdad6",
+                        "on-secondary": "#ffffff",
+                        "surface-container-high": "#e8e8e8",
+                        "inverse-on-surface": "#f1f1f1",
+                        "surface-container-highest": "#e2e2e2",
+                        "on-surface": "#1a1c1c",
+                        "on-primary-fixed": "#410003",
+                        "secondary-fixed": "#ffdcbe",
+                        "secondary-fixed-dim": "#ffb870",
+                        "on-tertiary-fixed-variant": "#474746",
+                        "surface-tint": "#ba1a20",
+                        "on-tertiary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-primary-container": "#fff2f0",
+                        "primary-fixed-dim": "#ffb3ac",
+                        "tertiary-container": "#706f6f",
+                        "background": "#f9f9f9",
+                        "on-secondary-fixed": "#2c1600",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed-variant": "#930010",
+                        "secondary": "#8b5000",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-container": "#f6f3f3",
+                        "on-surface-variant": "#5b403d"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "8px",
+                        "md": "24px",
+                        "sm": "12px",
+                        "margin-desktop": "32px",
+                        "margin-mobile": "16px",
+                        "xl": "64px",
+                        "lg": "40px",
+                        "xs": "4px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Montserrat"],
+                        "body-md": ["Inter"],
+                        "label-lg": ["Inter"],
+                        "display-lg": ["Montserrat"],
+                        "label-md": ["Inter"],
+                        "headline-lg-mobile": ["Montserrat"],
+                        "headline-lg": ["Montserrat"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .fill-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex">
+<!-- SideNavBar -->
+<nav class="bg-inverse-surface dark:bg-inverse-surface h-screen w-64 fixed left-0 top-0 shadow-md flex flex-col h-full py-base z-50">
+<div class="px-md mb-lg mt-sm flex flex-col items-center gap-xs">
+<div class="w-16 h-16 rounded-full bg-surface-container overflow-hidden mb-2">
+<img alt="BurgerFlow Admin Profile" class="w-full h-full object-cover" data-alt="A clean, professional close-up of a high-quality, juicy double cheeseburger against a solid stark white background, brightly lit in a modern food photography style, symbolizing a premium fast-food brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFwyKy8oYqWD5NQvXX4w_yQwKwS79Lotlbc2ljHfN5MMVU-Mdxo4v1Zs61kM2EEY9cW6JJiVWvOWFIaVv0hUCpjOV2J7zQes_FEqvRBVLPCxXzGrh83qSjQyeIOeswG41dlf6bkxaFPmsMAxZ5XeG9GkTs0b_tjhI_X3cFHYp74qXQ_fnhC1Hm1GsTZ_S1vhCdoMNl-uB7vDuhDnLKIZ637_rfdwePQPstcPjY_Bg0W6_fuqqEb48y">
+</div>
+<h1 class="font-headline-md text-headline-md font-bold text-on-primary">BurgerFlow</h1>
+<p class="font-label-md text-label-md text-surface-variant">Downtown Branch</p>
+</div>
+<button class="mx-md mb-lg bg-primary-container text-on-primary py-sm px-md rounded-lg font-label-lg text-label-lg shadow-md hover:bg-primary transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">add_circle</span> Nuevo pedido
+        </button>
+<div class="flex-1 min-h-0 overflow-visible pb-6">
+<ul class="flex flex-col gap-1">
+<li class="">
+<a class="flex items-center gap-3 px-4 py-3 border-l-4 border-primary bg-surface-container-highest text-on-surface font-bold" href="#">
+<span class="material-symbols-outlined fill-icon" data-icon="dashboard">dashboard</span>
+<span class="font-label-lg text-label-lg">Panel principal</span>
+</a>
+</li>
+<li class="">
+<a class="flex items-center gap-3 px-4 py-3 text-surface-variant hover:text-on-primary-fixed hover:bg-tertiary-container transition-colors border-l-4 border-transparent" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="font-label-lg text-label-lg">Ventas</span>
+</a>
+</li>
+<li class="">
+<a class="flex items-center gap-3 px-4 py-3 text-surface-variant hover:text-on-primary-fixed hover:bg-tertiary-container transition-colors border-l-4 border-transparent" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span class="font-label-lg text-label-lg">Pedidos</span>
+</a>
+</li>
+<li class="">
+<a class="flex items-center gap-3 px-4 py-3 text-surface-variant hover:text-on-primary-fixed hover:bg-tertiary-container transition-colors border-l-4 border-transparent" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-label-lg text-label-lg">Inventario</span>
+</a>
+</li>
+<li class="">
+<a class="flex items-center gap-3 px-4 py-3 text-surface-variant hover:text-on-primary-fixed hover:bg-tertiary-container transition-colors border-l-4 border-transparent" href="#">
+<span class="material-symbols-outlined" data-icon="restaurant_menu">restaurant_menu</span>
+<span class="font-label-lg text-label-lg">Menú</span>
+</a>
+</li>
+<li class="">
+<a class="flex items-center gap-3 px-4 py-3 text-surface-variant hover:text-on-primary-fixed hover:bg-tertiary-container transition-colors border-l-4 border-transparent" href="#">
+<span class="material-symbols-outlined" data-icon="kitchen">kitchen</span>
+<span class="font-label-lg text-label-lg">Cocina</span>
+</a>
+</li>
+<li class="">
+<a class="flex items-center gap-3 px-4 py-3 text-surface-variant hover:text-on-primary-fixed hover:bg-tertiary-container transition-colors border-l-4 border-transparent" href="#">
+<span class="material-symbols-outlined" data-icon="local_shipping">local_shipping</span>
+<span class="font-label-lg text-label-lg">Delivery</span>
+</a>
+</li>
+<li class="">
+<a class="flex items-center gap-3 px-4 py-3 text-surface-variant hover:text-on-primary-fixed hover:bg-tertiary-container transition-colors border-l-4 border-transparent" href="#">
+<span class="material-symbols-outlined" data-icon="assessment">assessment</span>
+<span class="font-label-lg text-label-lg">Reportes</span>
+</a>
+</li>
+</ul>
+</div>
+<div class="mt-auto pt-md border-t border-tertiary">
+<a class="flex items-center gap-3 px-4 py-3 text-surface-variant hover:text-on-primary-fixed hover:bg-tertiary-container transition-colors border-l-4 border-transparent" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-lg text-label-lg">Configuración</span>
+</a>
+</div>
+</nav>
+<!-- Main Canvas -->
+<main class="ml-64 flex-1 min-w-0 p-margin-desktop bg-surface-bright min-h-screen overflow-y-auto">
+<header class="flex justify-between items-center mb-xl">
+<h2 class="font-headline-lg text-headline-lg text-on-background">Panel Principal</h2>
+<div class="flex items-center gap-md">
+<button class="p-sm bg-surface-container rounded-full hover:bg-surface-container-high transition-colors relative">
+<span class="material-symbols-outlined text-tertiary">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full"></span>
+</button>
+<div class="h-10 w-10 rounded-full bg-surface-container overflow-hidden border-2 border-surface-variant">
+<img alt="User" class="w-full h-full object-cover" data-alt="A close up profile picture of a young professional restaurant manager wearing a crisp white shirt, standing in a bright modern kitchen environment. Soft natural light highlights a friendly expression." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCB-3BPWe6GMNHP7Jzl5rZvKuGtmccwqFZLoywW3dfwLD62DYO5Er1Mfrsr52PbrwkBkEfHOPKuKSVpaMfd0_auKUXC2-N0STEh4fQdsZ-Hs7n7wQ1rY6k9zzjAj4Bh_q39b5jl_Rjy8V5knvM4VQP3TU_WDwzXwcpdGy2xzPwLmYpBi8WA3AuUPzWUPDJWFJl6yAs98sdykmp2Wl2WRNnM_x0uY2XYcaZ4CXSY-HgPB5vXitsE8Mbl">
+</div>
+</div>
+</header>
+<!-- Metrics Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter mb-xl">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-md shadow-[0px_4px_12px_rgba(33,33,33,0.08)] flex flex-col gap-sm border border-surface-variant">
+<div class="flex justify-between items-start">
+<span class="font-label-lg text-label-lg text-tertiary">Ventas de Hoy</span>
+<span class="material-symbols-outlined text-primary bg-primary-fixed p-1 rounded">attach_money</span>
+</div>
+<div class="font-headline-md text-headline-md text-on-surface">Bs 12,450</div>
+<div class="text-sm text-tertiary mt-auto pt-2 border-t border-surface-container">+8% vs ayer</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl p-md shadow-[0px_4px_12px_rgba(33,33,33,0.08)] flex flex-col gap-sm border border-surface-variant">
+<div class="flex justify-between items-start">
+<span class="font-label-lg text-label-lg text-tertiary">Pedidos Totales</span>
+<span class="material-symbols-outlined text-secondary bg-secondary-fixed p-1 rounded">receipt_long</span>
+</div>
+<div class="font-headline-md text-headline-md text-on-surface">84</div>
+<div class="text-sm text-tertiary mt-auto pt-2 border-t border-surface-container">En curso: 12</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-lowest rounded-xl p-md shadow-[0px_4px_12px_rgba(33,33,33,0.08)] flex flex-col gap-sm border border-surface-variant">
+<div class="flex justify-between items-start">
+<span class="font-label-lg text-label-lg text-tertiary">Crecimiento Semanal</span>
+<span class="material-symbols-outlined text-primary bg-primary-fixed p-1 rounded">trending_up</span>
+</div>
+<div class="font-headline-md text-headline-md text-primary">+12%</div>
+<div class="text-sm text-tertiary mt-auto pt-2 border-t border-surface-container">Objetivo: 15%</div>
+</div>
+<!-- Card 4 -->
+<div class="bg-surface-container-lowest rounded-xl p-md shadow-[0px_4px_12px_rgba(33,33,33,0.08)] flex flex-col gap-sm border border-primary-container relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 bg-primary"></div>
+<div class="flex justify-between items-start">
+<span class="font-label-lg text-label-lg text-tertiary">Stock Bajo</span>
+<span class="material-symbols-outlined text-error bg-error-container p-1 rounded">warning</span>
+</div>
+<div class="font-headline-md text-headline-md text-error">3 alertas</div>
+<div class="text-sm text-error mt-auto pt-2 border-t border-surface-container">Requiere acción</div>
+</div>
+</div>
+<!-- Layout Bento Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+<!-- Chart Area -->
+<div class="lg:col-span-2 bg-surface-container-lowest rounded-xl p-md shadow-[0px_4px_12px_rgba(33,33,33,0.08)] border border-surface-variant">
+<h3 class="font-headline-md text-headline-md mb-md">Ventas de la Semana</h3>
+<!-- CSS Bar Chart Representation -->
+<div class="h-64 flex items-end justify-between gap-2 mt-auto">
+<div class="w-full bg-surface-container rounded-t-sm h-[40%] relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-on-primary text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">Lun</div>
+</div>
+<div class="w-full bg-surface-container rounded-t-sm h-[60%] relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-on-primary text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">Mar</div>
+</div>
+<div class="w-full bg-surface-container rounded-t-sm h-[55%] relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-on-primary text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">Mie</div>
+</div>
+<div class="w-full bg-primary rounded-t-sm h-[85%] relative group shadow-md">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-on-primary text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">Jue</div>
+</div>
+<div class="w-full bg-surface-container rounded-t-sm h-[70%] relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-on-primary text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">Vie</div>
+</div>
+<div class="w-full bg-surface-container rounded-t-sm h-[90%] relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-on-primary text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">Sab</div>
+</div>
+<div class="w-full bg-surface-container rounded-t-sm h-[30%] relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-on-primary text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">Dom</div>
+</div>
+</div>
+<div class="flex justify-between mt-sm text-tertiary text-sm px-2">
+<span class="">L</span><span class="">M</span><span class="">X</span><span class="">J</span><span class="">V</span><span class="">S</span><span class="">D</span>
+</div>
+</div>
+<!-- Inventory Alerts -->
+<div class="bg-surface-container-lowest rounded-xl p-md shadow-[0px_4px_12px_rgba(33,33,33,0.08)] border border-surface-variant flex flex-col">
+<h3 class="font-headline-md text-headline-md mb-md flex items-center justify-between">
+                    Alertas de Inventario
+                    <span class="material-symbols-outlined text-error">notification_important</span>
+</h3>
+<div class="flex flex-col gap-md flex-1">
+<div class="flex flex-col gap-1">
+<div class="flex justify-between font-label-lg text-label-lg">
+<span class="">Pan de Hamburguesa</span>
+<span class="text-error">12 und</span>
+</div>
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+<div class="bg-error h-full rounded-full" style="width: 15%"></div>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex justify-between font-label-lg text-label-lg">
+<span class="">Cheddar (Lajas)</span>
+<span class="text-secondary-container">45 und</span>
+</div>
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+<div class="bg-secondary-container h-full rounded-full" style="width: 25%"></div>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex justify-between font-label-lg text-label-lg">
+<span class="">Salsa BurgerFlow</span>
+<span class="text-secondary-container">2 L</span>
+</div>
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+<div class="bg-secondary-container h-full rounded-full" style="width: 30%"></div>
+</div>
+</div>
+</div>
+<button class="w-full mt-md border-2 border-surface-variant text-tertiary py-sm rounded-lg font-label-lg hover:bg-surface-container transition-colors">
+                    Ver Inventario Completo
+                </button>
+</div>
+<!-- Top Products Table -->
+<div class="lg:col-span-3 bg-surface-container-lowest rounded-xl p-md shadow-[0px_4px_12px_rgba(33,33,33,0.08)] border border-surface-variant mt-lg">
+<h3 class="font-headline-md text-headline-md mb-md">Productos más Vendidos</h3>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b-2 border-surface-variant text-tertiary font-label-lg">
+<th class="py-sm px-xs">Producto</th>
+<th class="py-sm px-xs">Cantidad</th>
+<th class="py-sm px-xs text-right">Ingresos</th>
+</tr>
+</thead>
+<tbody class="font-body-md">
+<tr class="border-b border-surface-container hover:bg-surface-container-low transition-colors">
+<td class="py-sm px-xs flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-surface-container-high overflow-hidden">
+<img alt="Doble Bacon Cheese" class="w-full h-full object-cover" data-alt="A pristine top-down shot of a massive, juicy double bacon cheeseburger on a rustic wooden board, brightly lit to highlight the crispy bacon and melted cheese against a clean white background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD12kI5KBylhXYMFyxAfIrqN-Bne-BzPcPKtOlP_DonkyUYHFfCgoyotzZz_iAt_b_aJaj72L9sYcY46a2OOxZyOJn_6ECCI_XJgie1I_p-cRfDX-Ij8aIxhXfxAodfNDB8z8ya8KEuqUNKjAFfBdIpbCwkxfUkmVQSoyrlNk5Md44UOOpO5GHy7Nkqx2PLwPpOvFDYBPs-CaDMICcoAGarnlYRkfj8EKZcC-9B-O0n2jvEF3qGBpSS">
+</div>
+<span class="font-semibold text-on-surface">Doble Bacon Cheese</span>
+</td>
+<td class="py-sm px-xs">145</td>
+<td class="py-sm px-xs text-right font-semibold">Bs 1.885,00</td>
+</tr>
+<tr class="border-b border-surface-container hover:bg-surface-container-low transition-colors">
+<td class="py-sm px-xs flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-surface-container-high overflow-hidden">
+<img alt="Classic Burger" class="w-full h-full object-cover" data-alt="A clean, appetizing macro shot of a classic single patty hamburger with fresh lettuce, tomato, and a perfectly toasted sesame bun, isolated on a bright white background, typical of high-end fast food advertising." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvK5bgZKOPc75jV15tBulPzGWwlN7gMhbHq2L9x10N60wTxb2Kb4ftSdtN948Meu0YElwE36A5BBWun4a5-DhYzuCPPXBh7WFdfgFdFOmZfPkQTebi9o0Irgk3znzFV8wIVQ6n26AljbsEE8VExh-vgJl2HdwRHYMFiQykg9xuiU-Z5wUZzz20WFMFaKqUX8OCFNgNLvfeSBRDZUfeqdIW1K4nh35n799Ux5ePYABpD-_p-mPCD52c">
+</div>
+<span class="font-semibold text-on-surface">Classic Burger</span>
+</td>
+<td class="py-sm px-xs">112</td>
+<td class="py-sm px-xs text-right font-semibold">Bs 1.008,00</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-sm px-xs flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-surface-container-high overflow-hidden">
+<img alt="Papas Fritas Grandes" class="w-full h-full object-cover" data-alt="A bright, high-contrast image of a large portion of golden, crispy french fries spilling out of a sleek modern red paper container, set against a stark white background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQ1CY5nLdxyf3nqQYWfz9pcAuqH5bfYd47kI7hfVVyaR4XJK_LCWvUz6UvLtyl2jW6b8wzgmMeFt5RQv7v9hWuqbQpgseebudlYQDgcVFdL0iJGNL8Kqr9ceVof_4sP1YgTNmaJprUFAPvWwZFO0kYaMxXQAcAWjxZkynCu5XTUqvxCrdDbfWJ_tf94-Z4xaOK6iezX_mpbK4WSGLwgzpz3_DIjvrO0zzLC8RpxWpyAFjvyk4s0_i7">
+</div>
+<span class="font-semibold text-on-surface">Papas Fritas Grandes</span>
+</td>
+<td class="py-sm px-xs">98</td>
+<td class="py-sm px-xs text-right font-semibold">Bs 441,00</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</main>
+
+
+<script src="../navigation.js?v=4"></script>
+</body></html>

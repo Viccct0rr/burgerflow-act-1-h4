@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1120" viewBox="0 0 1600 1120" role="img" aria-labelledby="title desc">
+  <title id="title">BurgerFlow: árbol de componentes y flujo de vistas</title>
+  <desc id="desc">Diagrama de arquitectura de componentes, responsabilidades, datos, reutilización y flujo entre menú, personalización y carrito.</desc>
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="5" stdDeviation="8" flood-color="#1a1c1c" flood-opacity=".12"/></filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#af101a"/></marker>
+    <marker id="arrowGray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#6b6665"/></marker>
+    <style>
+      .title{font:700 34px Montserrat,Arial,sans-serif;fill:#1a1c1c}.subtitle{font:400 16px Inter,Arial,sans-serif;fill:#575757}.section{font:700 18px Montserrat,Arial,sans-serif;fill:#1a1c1c}.label{font:700 12px Inter,Arial,sans-serif;letter-spacing:1.2px;text-transform:uppercase}.body{font:400 14px Inter,Arial,sans-serif;fill:#343535}.small{font:400 12px Inter,Arial,sans-serif;fill:#575757}.strong{font:700 15px Montserrat,Arial,sans-serif;fill:#1a1c1c}.white{fill:#fff}.line{stroke:#dedede;stroke-width:1}.dash{stroke:#6b6665;stroke-width:2;stroke-dasharray:7 7;fill:none;marker-end:url(#arrowGray)}.flow{stroke:#af101a;stroke-width:3;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1600" height="1120" fill="#f5f5f5"/>
+  <rect x="0" y="0" width="1600" height="14" fill="#d32f2f"/>
+  <text x="72" y="75" class="title">BurgerFlow · mapa de componentes</text>
+  <text x="72" y="105" class="subtitle">Arquitectura visible del mockup · responsabilidades, datos y oportunidades de reutilización</text>
+  <rect x="72" y="140" width="1456" height="168" rx="14" fill="#2f3131" filter="url(#shadow)"/>
+  <text x="104" y="174" class="label white">COMPONENTE RAÍZ / SHELL COMPARTIDO</text>
+  <text x="104" y="210" class="strong white" style="font-size:24px">AppShell · navigation.js</text>
+  <text x="104" y="240" class="body white">Responsabilidad: navegación global, rutas, sidebar persistente, menú móvil, estados activos y feedback.</text>
+  <text x="104" y="267" class="body white">Recibe: ubicación actual, etiquetas de navegación, rutas destino y eventos de botones.</text>
+  <rect x="1140" y="183" width="340" height="86" rx="10" fill="#4a4d4d"/>
+  <text x="1165" y="211" class="label" fill="#ffb3ac">REUTILIZACIÓN</text>
+  <text x="1165" y="237" class="body white">Alta · se inyecta en todas las vistas</text>
+  <text x="1165" y="258" class="small" fill="#e2e2e2">Único punto de rutas compartidas</text>
+
+  <text x="72" y="355" class="section">Árbol de componentes principales</text>
+  <path d="M800 308 V338 H272 V370 M800 338 H800 V370 M800 338 H1328 V370" class="dash"/>
+
+  <g filter="url(#shadow)">
+    <rect x="72" y="370" width="400" height="268" rx="12" fill="#fff" stroke="#d32f2f" stroke-width="3"/>
+    <rect x="72" y="370" width="400" height="48" rx="12" fill="#ffdad6"/>
+    <text x="96" y="401" class="strong">Dashboard / Panel principal</text>
+    <text x="96" y="447" class="label" fill="#af101a">RESPONSABILIDAD</text>
+    <text x="96" y="472" class="body">Resumen operativo y accesos por rol.</text>
+    <text x="96" y="512" class="label" fill="#af101a">DATOS QUE RECIBE</text>
+    <text x="96" y="537" class="body">Métricas, pedidos recientes, inventario</text><text x="96" y="557" class="body">crítico, fecha y perfil del usuario.</text>
+    <text x="96" y="597" class="label" fill="#af101a">REUTILIZACIÓN</text>
+    <text x="96" y="622" class="body">Media · tarjetas métricas y pedidos</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="600" y="370" width="400" height="268" rx="12" fill="#fff" stroke="#ff9800" stroke-width="3"/>
+    <rect x="600" y="370" width="400" height="48" rx="12" fill="#ffdcbe"/>
+    <text x="624" y="401" class="strong">Vistas de operación</text>
+    <text x="624" y="447" class="label" fill="#8b5000">RESPONSABILIDAD</text>
+    <text x="624" y="472" class="body">Ventas, inventario, cocina y delivery.</text>
+    <text x="624" y="512" class="label" fill="#8b5000">DATOS QUE RECIBE</text>
+    <text x="624" y="537" class="body">Pedidos, productos, existencias, estados</text><text x="624" y="557" class="body">y asignaciones de reparto.</text>
+    <text x="624" y="597" class="label" fill="#8b5000">REUTILIZACIÓN</text>
+    <text x="624" y="622" class="body">Alta · OrderCard, StatusBadge, Stepper</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="1128" y="370" width="400" height="268" rx="12" fill="#fff" stroke="#4caf50" stroke-width="3"/>
+    <rect x="1128" y="370" width="400" height="48" rx="12" fill="#d9f0df"/>
+    <text x="1152" y="401" class="strong">Flujo de cliente</text>
+    <text x="1152" y="447" class="label" fill="#236c43">RESPONSABILIDAD</text>
+    <text x="1152" y="472" class="body">Explorar menú, personalizar y confirmar.</text>
+    <text x="1152" y="512" class="label" fill="#236c43">DATOS QUE RECIBE</text>
+    <text x="1152" y="537" class="body">Categorías, producto seleccionado, extras,</text><text x="1152" y="557" class="body">cantidad, dirección y método de pago.</text>
+    <text x="1152" y="597" class="label" fill="#236c43">REUTILIZACIÓN</text>
+    <text x="1152" y="622" class="body">Alta · ProductCard, CategoryFilter, cart</text>
+  </g>
+
+  <text x="72" y="690" class="section">Flujo básico entre tres vistas</text>
+  <text x="72" y="716" class="small">Caso elegido: compra de una hamburguesa desde el menú hasta la confirmación.</text>
+  <path d="M470 810 H560" class="flow"/><path d="M1000 810 H1090" class="flow"/>
+  <g filter="url(#shadow)">
+    <rect x="72" y="750" width="398" height="140" rx="12" fill="#fff"/>
+    <circle cx="110" cy="790" r="20" fill="#d32f2f"/><text x="104" y="797" class="strong white">1</text>
+    <text x="145" y="785" class="strong">Menú de clientes</text>
+    <text x="145" y="810" class="body">Filtra categoría y selecciona</text><text x="145" y="830" class="body">un producto.</text>
+    <text x="96" y="865" class="small">Salida: productId + precio base</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="600" y="750" width="400" height="140" rx="12" fill="#fff"/>
+    <circle cx="638" cy="790" r="20" fill="#ff9800"/><text x="632" y="797" class="strong white">2</text>
+    <text x="673" y="785" class="strong">Personalizar hamburguesa</text>
+    <text x="673" y="810" class="body">Agrega extras, quita ingredientes</text><text x="673" y="830" class="body">y define la cantidad.</text>
+    <text x="624" y="865" class="small">Salida: lineItem configurable</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="1128" y="750" width="400" height="140" rx="12" fill="#fff"/>
+    <circle cx="1166" cy="790" r="20" fill="#4caf50"/><text x="1160" y="797" class="strong white">3</text>
+    <text x="1201" y="785" class="strong">Carrito y confirmación</text>
+    <text x="1201" y="810" class="body">Revisa el pedido, paga y confirma</text><text x="1201" y="830" class="body">la orden.</text>
+    <text x="1152" y="865" class="small">Salida: order + estado “Nuevo”</text>
+  </g>
+
+  <rect x="72" y="944" width="890" height="118" rx="12" fill="#fff" stroke="#dedede"/>
+  <text x="100" y="978" class="label" fill="#af101a">DUDA CONCRETA DE ARQUITECTURA</text>
+  <text x="100" y="1010" class="body">¿Conviene extraer un estado global de pedido (order store) para que</text>
+  <text x="100" y="1032" class="body">POS, KDS y Delivery compartan la misma orden sin duplicar lógica?</text>
+  <rect x="994" y="944" width="534" height="118" rx="12" fill="#2f3131"/>
+  <text x="1022" y="978" class="label" fill="#ffb3ac">RESPUESTA A UN COMPAÑERO</text>
+  <text x="1022" y="1010" class="body white">Dividiría AppShell: separaría Sidebar y</text>
+  <text x="1022" y="1032" class="body white">RouteResolver. Así ambos se reutilizan</text>
+  <text x="1022" y="1054" class="body white">sin mezclar UI con navegación.</text>
+
+  <text x="72" y="1092" class="small">BurgerFlow · entrega de arquitectura · 16 septiembre 2026</text>
+</svg>

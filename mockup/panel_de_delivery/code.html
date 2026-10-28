@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>BurgerFlow - Delivery</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Montserrat:wght@600;700;900&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-dim": "#dadada",
+                        "tertiary-fixed-dim": "#c8c6c5",
+                        "on-primary": "#ffffff",
+                        "primary": "#af101a",
+                        "tertiary": "#575757",
+                        "surface-variant": "#e2e2e2",
+                        "inverse-surface": "#2f3131",
+                        "tertiary-fixed": "#e5e2e1",
+                        "surface": "#f9f9f9",
+                        "primary-container": "#d32f2f",
+                        "on-secondary-container": "#653900",
+                        "surface-container": "#eeeeee",
+                        "secondary-container": "#ff9800",
+                        "on-secondary-fixed-variant": "#693c00",
+                        "inverse-primary": "#ffb3ac",
+                        "on-tertiary-fixed": "#1b1c1c",
+                        "surface-container-low": "#f3f3f3",
+                        "surface-bright": "#f9f9f9",
+                        "error": "#ba1a1a",
+                        "outline": "#8f6f6c",
+                        "on-background": "#1a1c1c",
+                        "outline-variant": "#e4beba",
+                        "on-error": "#ffffff",
+                        "primary-fixed": "#ffdad6",
+                        "on-secondary": "#ffffff",
+                        "surface-container-high": "#e8e8e8",
+                        "inverse-on-surface": "#f1f1f1",
+                        "surface-container-highest": "#e2e2e2",
+                        "on-surface": "#1a1c1c",
+                        "on-primary-fixed": "#410003",
+                        "secondary-fixed": "#ffdcbe",
+                        "secondary-fixed-dim": "#ffb870",
+                        "on-tertiary-fixed-variant": "#474746",
+                        "surface-tint": "#ba1a20",
+                        "on-tertiary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-primary-container": "#fff2f0",
+                        "primary-fixed-dim": "#ffb3ac",
+                        "tertiary-container": "#706f6f",
+                        "background": "#f9f9f9",
+                        "on-secondary-fixed": "#2c1600",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed-variant": "#930010",
+                        "secondary": "#8b5000",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-container": "#f6f3f3",
+                        "on-surface-variant": "#5b403d"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "8px",
+                        "md": "24px",
+                        "sm": "12px",
+                        "margin-desktop": "32px",
+                        "margin-mobile": "16px",
+                        "xl": "64px",
+                        "lg": "40px",
+                        "xs": "4px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Montserrat"],
+                        "body-md": ["Inter"],
+                        "label-lg": ["Inter"],
+                        "display-lg": ["Montserrat"],
+                        "label-md": ["Inter"],
+                        "headline-lg-mobile": ["Montserrat"],
+                        "headline-lg": ["Montserrat"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface flex min-h-screen">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col h-screen w-64 fixed left-0 top-0 bg-inverse-surface py-base shadow-md z-50">
+<div class="px-md pb-md mb-md border-b border-surface-variant/20">
+<h1 class="font-headline-md text-headline-md font-bold text-on-primary">BurgerFlow</h1>
+<p class="font-body-md text-body-md text-surface-variant/70 mt-xs">Downtown Branch</p>
+</div>
+<div class="flex-1 min-h-0 overflow-hidden py-base pb-6 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-surface-variant hover:text-on-primary-fixed hover:bg-tertiary-container transition-colors active:scale-95" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-lg text-label-lg">Panel principal</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-surface-variant hover:text-on-primary-fixed hover:bg-tertiary-container transition-colors active:scale-95" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-lg text-label-lg">Ventas</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-surface-variant hover:text-on-primary-fixed hover:bg-tertiary-container transition-colors active:scale-95" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-label-lg text-label-lg">Pedidos</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-surface-variant hover:text-on-primary-fixed hover:bg-tertiary-container transition-colors active:scale-95" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-lg text-label-lg">Inventario</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-surface-variant hover:text-on-primary-fixed hover:bg-tertiary-container transition-colors active:scale-95" href="#">
+<span class="material-symbols-outlined">restaurant_menu</span>
+<span class="font-label-lg text-label-lg">Menú</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-surface-variant hover:text-on-primary-fixed hover:bg-tertiary-container transition-colors active:scale-95" href="#">
+<span class="material-symbols-outlined">kitchen</span>
+<span class="font-label-lg text-label-lg">Cocina</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 border-l-4 border-primary bg-surface-container-highest text-on-surface font-bold" href="#">
+<span class="material-symbols-outlined text-primary">local_shipping</span>
+<span class="font-label-lg text-label-lg">Delivery</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-surface-variant hover:text-on-primary-fixed hover:bg-tertiary-container transition-colors active:scale-95" href="#">
+<span class="material-symbols-outlined">assessment</span>
+<span class="font-label-lg text-label-lg">Reportes</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-surface-variant hover:text-on-primary-fixed hover:bg-tertiary-container transition-colors active:scale-95" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-lg text-label-lg">Configuración</span>
+</a>
+</div>
+<div class="p-4 mt-auto border-t border-surface-variant/20">
+<button class="w-full flex items-center justify-center gap-2 bg-primary-container text-on-primary py-3 rounded-lg font-label-lg text-label-lg hover:bg-primary-fixed hover:text-on-primary-fixed transition-colors shadow-md">
+<span class="material-symbols-outlined">add</span>
+                Nuevo pedido
+            </button>
+<div class="flex items-center gap-3 mt-4 px-2">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center font-label-lg text-label-lg text-on-surface">AU</div>
+<span class="font-label-md text-label-md text-surface-variant">Admin User</span>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-1 ml-0 md:ml-64 flex flex-col h-screen overflow-hidden">
+<!-- TopNavBar (Mobile Only Placeholder) -->
+<header class="md:hidden flex justify-between items-center bg-surface px-margin-mobile py-base border-b border-surface-variant z-40 sticky top-0">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile font-black text-primary">BurgerFlow</h1>
+<button class="text-on-surface" type="button" data-route="../index.html" aria-label="Volver al centro de operaciones">
+<span class="material-symbols-outlined text-2xl">menu</span>
+</button>
+</header>
+<div class="flex-1 flex flex-col lg:flex-row overflow-hidden">
+<!-- Left Panel: Delivery List -->
+<div class="w-full min-w-0 flex-1 lg:flex-none lg:w-2/5 flex flex-col bg-surface-container-low border-r-2 border-surface-variant overflow-hidden">
+<div class="p-md sticky top-0 bg-surface-container-low/95 backdrop-blur z-10 border-b border-surface-variant shadow-sm">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-4">Entregas activas</h2>
+<div class="flex gap-2 mb-4 overflow-x-auto pb-2 scrollbar-hide">
+<button class="px-4 py-2 bg-inverse-surface text-on-primary rounded-full font-label-md text-label-md whitespace-nowrap">Todas (12)</button>
+<button class="px-4 py-2 bg-surface border border-surface-variant text-on-surface rounded-full font-label-md text-label-md whitespace-nowrap hover:bg-surface-variant transition">Asignadas (5)</button>
+<button class="px-4 py-2 bg-surface border border-surface-variant text-on-surface rounded-full font-label-md text-label-md whitespace-nowrap hover:bg-surface-variant transition">En camino (7)</button>
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-3 text-tertiary">search</span>
+<input class="w-full pl-10 pr-4 py-3 bg-surface border-2 border-surface-variant rounded-lg font-body-md text-body-md focus:border-primary focus:ring-0 transition-colors" placeholder="Buscar pedido o dirección..." type="text"/>
+</div>
+</div>
+<div class="p-md space-y-4 overflow-y-auto max-h-[calc(100vh-200px)]">
+<!-- Order Card 1 (Active) -->
+<div class="bg-surface rounded-xl shadow-[0_4px_12px_rgba(33,33,33,0.08)] border-l-4 border-primary p-4 cursor-pointer relative overflow-hidden transition-all hover:shadow-[0_8px_16px_rgba(33,33,33,0.12)]">
+<div class="flex justify-between items-start mb-2">
+<div>
+<span class="font-label-lg text-label-lg text-primary block">#ORD-8492</span>
+<h3 class="font-headline-md text-body-lg font-bold mt-1">Carlos Mendoza</h3>
+</div>
+<span class="bg-secondary-container/20 text-on-secondary-container px-3 py-1 rounded-full font-label-md text-label-md uppercase tracking-wider flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">two_wheeler</span> En camino
+                            </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant flex items-start gap-2 mt-3">
+<span class="material-symbols-outlined text-tertiary text-lg mt-0.5">location_on</span>
+                            Av. Libertador 1240, Apt 4B
+                        </p>
+<div class="flex justify-between items-center mt-4 pt-3 border-t border-surface-variant">
+<span class="font-label-md text-label-md text-tertiary bg-surface-container-high px-2 py-1 rounded">Pagado en línea</span>
+<span class="font-label-md text-label-md text-tertiary">Estimado: 12 min</span>
+</div>
+</div>
+<!-- Order Card 2 -->
+<div class="bg-surface rounded-xl shadow-[0_4px_12px_rgba(33,33,33,0.08)] p-4 cursor-pointer border border-transparent hover:border-surface-variant transition-all hover:shadow-[0_8px_16px_rgba(33,33,33,0.12)]">
+<div class="flex justify-between items-start mb-2">
+<div>
+<span class="font-label-lg text-label-lg text-tertiary block">#ORD-8495</span>
+<h3 class="font-headline-md text-body-lg font-bold mt-1">Laura Gómez</h3>
+</div>
+<span class="bg-surface-container-highest text-on-surface px-3 py-1 rounded-full font-label-md text-label-md uppercase tracking-wider flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">inventory_2</span> Asignada
+                            </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant flex items-start gap-2 mt-3">
+<span class="material-symbols-outlined text-tertiary text-lg mt-0.5">location_on</span>
+                            Calle San Martín 560
+                        </p>
+<div class="flex justify-between items-center mt-4 pt-3 border-t border-surface-variant">
+<span class="font-label-md text-label-md text-on-error-container bg-error-container px-2 py-1 rounded font-bold">Pago contra entrega</span>
+<span class="font-label-md text-label-md text-tertiary">Estimado: --</span>
+</div>
+</div>
+<!-- Order Card 3 -->
+<div class="bg-surface rounded-xl shadow-[0_4px_12px_rgba(33,33,33,0.08)] p-4 cursor-pointer border border-transparent hover:border-surface-variant transition-all hover:shadow-[0_8px_16px_rgba(33,33,33,0.12)]">
+<div class="flex justify-between items-start mb-2">
+<div>
+<span class="font-label-lg text-label-lg text-tertiary block">#ORD-8496</span>
+<h3 class="font-headline-md text-body-lg font-bold mt-1">Juan Perez</h3>
+</div>
+<span class="bg-surface-container-highest text-on-surface px-3 py-1 rounded-full font-label-md text-label-md uppercase tracking-wider flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">inventory_2</span> Asignada
+                            </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant flex items-start gap-2 mt-3">
+<span class="material-symbols-outlined text-tertiary text-lg mt-0.5">location_on</span>
+                            Belgrano 102, PB
+                        </p>
+<div class="flex justify-between items-center mt-4 pt-3 border-t border-surface-variant">
+<span class="font-label-md text-label-md text-tertiary bg-surface-container-high px-2 py-1 rounded">Pagado en línea</span>
+<span class="font-label-md text-label-md text-tertiary">Estimado: --</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Panel: Map & Details -->
+<div class="flex-1 flex flex-col relative bg-surface-dim">
+<!-- Map Area Placeholder -->
+<div class="flex-1 w-full min-h-[300px] bg-surface-variant relative overflow-hidden" data-location="Buenos Aires">
+<div class="absolute inset-0 bg-[linear-gradient(135deg,#e8e8e8_25%,#f9f9f9_25%,#f9f9f9_50%,#e8e8e8_50%,#e8e8e8_75%,#f9f9f9_75%)] bg-[length:48px_48px] opacity-80" aria-label="Mapa de entregas"></div>
+<!-- Map Overlays -->
+<div class="absolute top-md right-md flex flex-col gap-2 z-10">
+<button class="w-12 h-12 bg-surface text-on-surface rounded-full shadow-[0_4px_12px_rgba(33,33,33,0.15)] flex items-center justify-center hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">my_location</span>
+</button>
+<button class="w-12 h-12 bg-surface text-on-surface rounded-full shadow-[0_4px_12px_rgba(33,33,33,0.15)] flex items-center justify-center hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">layers</span>
+</button>
+</div>
+<!-- Simulated Route Line (SVG Placeholder) -->
+<div class="absolute inset-0 pointer-events-none flex items-center justify-center opacity-50">
+<svg fill="none" height="300" viewbox="0 0 400 300" width="400" xmlns="http://www.w3.org/2000/svg">
+<path d="M50 250 Q 150 50 350 150" stroke="#af101a" stroke-dasharray="8 8" stroke-width="4"></path>
+<circle cx="50" cy="250" fill="#1a1c1c" r="8"></circle>
+<circle cx="350" cy="150" fill="#d32f2f" r="12" stroke="white" stroke-width="3"></circle>
+</svg>
+</div>
+</div>
+<!-- Detail Panel (Bottom Slide-up or Docked) -->
+<div class="bg-surface shadow-[0_-4px_20px_rgba(33,33,33,0.1)] z-20 h-auto lg:h-[320px] shrink-0 border-t border-surface-variant flex flex-col lg:flex-row">
+<!-- Order Info -->
+<div class="flex-1 p-md flex flex-col border-b lg:border-b-0 lg:border-r border-surface-variant overflow-y-auto">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h2 class="font-headline-md text-headline-md font-bold">#ORD-8492 Details</h2>
+<p class="font-body-md text-body-md text-tertiary">Repartidor: Mike R. (en vehículo)</p>
+</div>
+<button class="flex items-center gap-2 bg-surface-container text-on-surface px-4 py-2 rounded-lg font-label-lg text-label-lg hover:bg-surface-container-high transition">
+<span class="material-symbols-outlined">call</span>
+                                Contactar cliente
+                            </button>
+</div>
+<div class="space-y-3 flex-1 overflow-y-auto pr-2">
+<div class="flex justify-between items-center py-2 border-b border-surface-variant/50">
+<div class="flex items-center gap-3">
+<span class="font-label-lg text-label-lg w-6 h-6 bg-surface-container-high rounded flex items-center justify-center">2x</span>
+<span class="font-body-md text-body-md">Classic Smash Burger</span>
+</div>
+<span class="font-label-md text-label-md text-tertiary">No pickles</span>
+</div>
+<div class="flex justify-between items-center py-2 border-b border-surface-variant/50">
+<div class="flex items-center gap-3">
+<span class="font-label-lg text-label-lg w-6 h-6 bg-surface-container-high rounded flex items-center justify-center">1x</span>
+<span class="font-body-md text-body-md">Large Fries</span>
+</div>
+</div>
+<div class="flex justify-between items-center py-2 border-b border-surface-variant/50">
+<div class="flex items-center gap-3">
+<span class="font-label-lg text-label-lg w-6 h-6 bg-surface-container-high rounded flex items-center justify-center">2x</span>
+<span class="font-body-md text-body-md">Coke Zero 500ml</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Action Zone -->
+<div class="w-full lg:w-1/3 p-md bg-surface-container-lowest flex flex-col justify-center">
+<div class="bg-surface-container-low p-4 rounded-xl mb-6">
+<div class="flex justify-between mb-2">
+<span class="font-body-md text-body-md text-tertiary">Importe total</span>
+<span class="font-headline-md text-body-lg font-bold">Bs 34.50</span>
+</div>
+<div class="flex items-center gap-2 text-primary font-label-md text-label-md">
+<span class="material-symbols-outlined text-[16px]">check_circle</span> Pagado en línea
+                             </div>
+</div>
+<!-- Big Action Buttons -->
+<div class="flex flex-col gap-3">
+</div></div></div></div></div></main><script src="../navigation.js?v=3"></script></body></html>

@@ -1,0 +1,300 @@
+<!DOCTYPE html><html lang="es"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>BurgerFlow - Menú Digital</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=Montserrat:wght@100..900&amp;display=swap" rel="stylesheet">
+<style>
+        body { overflow-x: hidden; }
+        [data-product] { min-width: 0; }
+        [data-product] img { object-fit: cover; border-radius: 0.5rem; }
+        [data-product] > div:last-child { min-width: 0; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined[data-weight="fill"] {
+            font-variation-settings: 'FILL' 1;
+        }
+        
+        /* Hide scrollbar for category nav */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-dim": "#dadada",
+                        "tertiary-fixed-dim": "#c8c6c5",
+                        "on-primary": "#ffffff",
+                        "primary": "#af101a",
+                        "tertiary": "#575757",
+                        "surface-variant": "#e2e2e2",
+                        "inverse-surface": "#2f3131",
+                        "tertiary-fixed": "#e5e2e1",
+                        "surface": "#f9f9f9",
+                        "primary-container": "#d32f2f",
+                        "on-secondary-container": "#653900",
+                        "surface-container": "#eeeeee",
+                        "secondary-container": "#ff9800",
+                        "on-secondary-fixed-variant": "#693c00",
+                        "inverse-primary": "#ffb3ac",
+                        "on-tertiary-fixed": "#1b1c1c",
+                        "surface-container-low": "#f3f3f3",
+                        "surface-bright": "#f9f9f9",
+                        "error": "#ba1a1a",
+                        "outline": "#8f6f6c",
+                        "on-background": "#1a1c1c",
+                        "outline-variant": "#e4beba",
+                        "on-error": "#ffffff",
+                        "primary-fixed": "#ffdad6",
+                        "on-secondary": "#ffffff",
+                        "surface-container-high": "#e8e8e8",
+                        "inverse-on-surface": "#f1f1f1",
+                        "surface-container-highest": "#e2e2e2",
+                        "on-surface": "#1a1c1c",
+                        "on-primary-fixed": "#410003",
+                        "secondary-fixed": "#ffdcbe",
+                        "secondary-fixed-dim": "#ffb870",
+                        "on-tertiary-fixed-variant": "#474746",
+                        "surface-tint": "#ba1a20",
+                        "on-tertiary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-primary-container": "#fff2f0",
+                        "primary-fixed-dim": "#ffb3ac",
+                        "tertiary-container": "#706f6f",
+                        "background": "#f9f9f9",
+                        "on-secondary-fixed": "#2c1600",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed-variant": "#930010",
+                        "secondary": "#8b5000",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-container": "#f6f3f3",
+                        "on-surface-variant": "#5b403d"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "8px",
+                        "md": "24px",
+                        "sm": "12px",
+                        "margin-desktop": "32px",
+                        "margin-mobile": "16px",
+                        "xl": "64px",
+                        "lg": "40px",
+                        "xs": "4px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Montserrat"],
+                        "body-md": ["Inter"],
+                        "label-lg": ["Inter"],
+                        "display-lg": ["Montserrat"],
+                        "label-md": ["Inter"],
+                        "headline-lg-mobile": ["Montserrat"],
+                        "headline-lg": ["Montserrat"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface font-body-md min-h-screen relative">
+<!-- TopNavBar (From Shared Components JSON) -->
+<header class="bg-surface docked full-width top-0 sticky z-40 border-b-2 border-surface-variant flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-base transition-all duration-200">
+<div class="flex items-center gap-md">
+<span class="font-headline-lg text-headline-lg font-black text-primary">BurgerFlow</span>
+<!-- Search Bar (on_left) -->
+<div class="flex items-center bg-surface-container-low rounded-full px-3 md:px-4 py-2 border-2 border-surface-variant focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant mr-2" data-icon="search">search</span>
+<input id="menuSearch" class="bg-transparent border-none focus:outline-none focus:ring-0 font-body-md text-body-md w-36 md:w-64 text-on-surface placeholder-on-surface-variant" placeholder="Buscar..." type="search">
+</div>
+</div>
+<div class="flex items-center gap-sm">
+<button type="button" data-route="../index.html" class="hidden md:flex items-center gap-2 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-primary font-label-md text-label-md">
+<span class="material-symbols-outlined text-[18px]">apps</span> Centro de operaciones
+</button>
+<button aria-label="Notifications" class="p-2 rounded-full hover:bg-surface-container-low text-on-surface-variant transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button aria-label="Storefront" class="p-2 rounded-full hover:bg-surface-container-low text-on-surface-variant transition-colors">
+<span class="material-symbols-outlined" data-icon="storefront">storefront</span>
+</button>
+<div class="w-10 h-10 rounded-full bg-surface-container-high overflow-hidden ml-2 border-2 border-surface-variant">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="A clean, professional avatar placeholder image showing a subtle silhouette of a person against a bright, modern white background with soft gray tones, suitable for a fast-casual restaurant app profile picture." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIRyq0TQRQsjAIxVEWHHpWvmrpTKizBMesyh3vuqK51CyfBp4f6Q9TwCQc77S0FxsH-9JX__tCPTAU1vp4Xed7djhVIjzkN7qTPCwe5rtQH1xgRpnp1Hawn3zNrIyuCQUET8-jA1fhmlnbpbBa9Kp75Jbq3-JVHg0jpL2PRmMM40fGs4HqtHcYM61WtT-A3yP6v8Mk4NzuCMs4PVh1lWsqpL7gCVk9-2ou7JhE9PMw5gDGb_yJ6GYs">
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pb-xl">
+<!-- Hero Banner -->
+<section class="relative w-full h-[30vh] min-h-[250px] bg-surface-container-high overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center w-full h-full" data-alt="A spectacular, high-definition, appetizing close-up macro photograph of a gourmet, massive burger being built. Sizzling beef patty, melting cheddar cheese, crispy bacon, and fresh vibrant green lettuce. The lighting is bright, dramatic, and warm, emphasizing the textures and creating a high-energy, premium 'street food' aesthetic against a clean, slightly blurred bright background." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDpOZs0-dmWGOCH2ji2HDf6KN2t-oUBP73Mtl5JswmKkDBZlKbF7slTY2ULoRsgxvaXzP9V1Oxsp28U3V64rqaqlSUOw3yhM3dGLtAfdCi3RWUv5FN_eL8GXRfGJdErA45y3I7Q8U_X2HMBIuQyeo3_4XOye53utDZcvsc6RHgU9qGZxJYfrS6LibREXlQDntKrpV9AO9NkwGxua1ggez3RNlpca4S2gEnEdbJOyl3LKtFhMZXhOGlA')"></div>
+<div class="absolute inset-0 bg-gradient-to-r from-inverse-surface/80 to-transparent flex items-center px-margin-mobile md:px-margin-desktop">
+<h1 class="font-display-lg text-display-lg text-on-primary drop-shadow-md">Sabor que fluye</h1>
+</div>
+</section>
+<!-- Category Navigation -->
+<nav class="sticky top-[72px] z-30 bg-surface/90 backdrop-blur-md border-b border-surface-variant py-sm px-margin-mobile md:px-margin-desktop overflow-x-auto no-scrollbar shadow-sm">
+<div class="flex items-center gap-sm min-w-max">
+<!-- Active Category -->
+<button type="button" data-category="hamburguesas" class="category-button px-6 py-3 rounded-full bg-primary-container text-on-primary-container font-label-lg text-label-lg shadow-md transition-transform active:scale-95">
+                    Hamburguesas
+                </button>
+<!-- Inactive Categories -->
+<button type="button" data-category="combos" class="category-button px-6 py-3 rounded-full bg-surface-container-low text-on-surface hover:bg-surface-container-high font-label-lg text-label-lg transition-colors">
+                    Combos
+                </button>
+<button type="button" data-category="papas" class="category-button px-6 py-3 rounded-full bg-surface-container-low text-on-surface hover:bg-surface-container-high font-label-lg text-label-lg transition-colors">
+                    Papas
+                </button>
+<button type="button" data-category="bebidas" class="category-button px-6 py-3 rounded-full bg-surface-container-low text-on-surface hover:bg-surface-container-high font-label-lg text-label-lg transition-colors">
+                    Bebidas
+                </button>
+<button type="button" data-category="extras" class="category-button px-6 py-3 rounded-full bg-surface-container-low text-on-surface hover:bg-surface-container-high font-label-lg text-label-lg transition-colors">
+                    Extras
+                </button>
+</div>
+</nav>
+<!-- Product Grid -->
+<section class="px-margin-mobile md:px-margin-desktop py-lg">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<!-- Product Card 1 -->
+<article data-product data-category="hamburguesas" class="bg-surface-container-lowest rounded-xl shadow-[0px_4px_12px_rgba(33,33,33,0.08)] hover:shadow-[0px_8px_24px_rgba(33,33,33,0.12)] transition-shadow overflow-hidden flex flex-col group">
+<div class="h-48 w-full bg-surface-container relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A perfectly lit, highly appetizing studio shot of a massive 'Bacon Blast Burger'. Double smashed beef patties, layers of crispy thick-cut bacon, dripping American cheese, and house sauce on a toasted brioche bun. Shot against a pristine, bright white background to emphasize the premium, modern fast-food aesthetic. High contrast, vivid colors." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9I_WsmXXBEejTNhGGO-ooM_SvzikssrKMvu9S6-rWRuXoMxNDHkj5N97Cwmgl9kgWeF37LDP4XItco2T1vSnmRNQQ_wAs80j8384eoB44ixAJIW6rdLe4ofVKFiYKC0ijXB_2nBKtWL13pit6XWUUl5uwNXGIaddFHeH5cWszd8GP9hIRlfKzkfqlzeygIy-JYmhgPTgRgg90RQYOn8PR1xVlpR8ET09ZxYtu6ihCt8lkWalBwmc8">
+</div>
+<div class="p-sm flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-headline-md text-on-background">Bacon Blast Burger</h3>
+</div>
+<p class="font-body-md text-body-md text-tertiary mb-md flex-grow">
+                            Doble carne smash, triple tocino crujiente, queso cheddar derretido y nuestra salsa secreta Flow.
+                        </p>
+<div class="flex flex-wrap items-center justify-between gap-2 mt-auto">
+<span class="font-headline-md text-headline-md text-on-surface">Bs 14.50</span>
+<button class="h-[56px] px-6 bg-primary-container text-on-primary rounded-lg font-label-lg text-label-lg hover:bg-primary transition-colors flex items-center gap-2 active:scale-95 shadow-md">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+                                Personalizar
+                            </button>
+</div>
+</div>
+</article>
+<!-- Product Card 2 -->
+<article data-product data-category="hamburguesas" class="bg-surface-container-lowest rounded-xl shadow-[0px_4px_12px_rgba(33,33,33,0.08)] hover:shadow-[0px_8px_24px_rgba(33,33,33,0.12)] transition-shadow overflow-hidden flex flex-col group">
+<div class="h-48 w-full bg-surface-container relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A mouth-watering, high-resolution food photography shot of a 'Cheese Heaven' burger. A single thick, juicy beef patty overflowing with three types of melted cheese: cheddar, provolone, and gouda. Caramelized onions peak out. Bright, clean lighting against a minimalist white background, highlighting the glossy, tactile quality of the melted cheese." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5kH2jKA595d7raqONpmolvtmDaTv893e5HAVKNkvmtKNS9qDtEd9bLKcjNzDXeSE-iRJ_6qNnBqZi1fqBgsPnv1EMK0ivf15uAKRfSbQUd8rFGOWkBCynpKlwnbH90VwF4coAxi86FcZus5rgj6TwrPBz8GRcZyxZ1AZBE42-TU1Um5G8EswxUun28KL1xhwetvFmSBehfakW7_CL4fEM7UZd-2W0f1PR6FbWEmeLM8z_GLRHjVoV">
+</div>
+<div class="p-sm flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-headline-md text-on-background">Cheese Heaven</h3>
+</div>
+<p class="font-body-md text-body-md text-tertiary mb-md flex-grow">
+                            Para los amantes del queso. Medallón de res bañado en una cascada de cheddar, provolone y gouda fundido.
+                        </p>
+<div class="flex flex-wrap items-center justify-between gap-2 mt-auto">
+<span class="font-headline-md text-headline-md text-on-surface">Bs 12.00</span>
+<button class="h-[56px] px-6 bg-primary-container text-on-primary rounded-lg font-label-lg text-label-lg hover:bg-primary transition-colors flex items-center gap-2 active:scale-95 shadow-md">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+                                Personalizar
+                            </button>
+</div>
+</div>
+</article>
+<!-- Product Card 3 -->
+<article data-product data-category="hamburguesas" class="bg-surface-container-lowest rounded-xl shadow-[0px_4px_12px_rgba(33,33,33,0.08)] hover:shadow-[0px_8px_24px_rgba(33,33,33,0.12)] transition-shadow overflow-hidden flex flex-col group">
+<div class="h-48 w-full bg-surface-container relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="An incredibly tall, imposing 'Monster Burger' photographed in a bright, modern studio setting. It features triple beef patties, fried onion rings, bacon, a fried egg, lettuce, and thick cut tomatoes. The lighting is pristine, casting a soft shadow on a white surface, emphasizing the sheer size and 'tactile edge' of the ingredients." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJP1I4amDJWRizIPcAnRwlVW2xAEuIjrXbCFvknsKRkReHQmrUWSlhf1V30NnTOVyMWvTGY3WDLcFwfbbPZvTVQ0AQYguZoBivKF0_iQK2X0YEbrVsP2l35dmzM6iRQChsULEM49kz1Zv99jKceps3oKBV3jgz3VnrdB8qpWV2fLuF0LdciQ7CvpL46VwgtZ7DhPk4rP_PrldSAI3WWXmlreDiQmzjROLqyOP9izubRFyBK7xsMa_w">
+</div>
+<div class="p-sm flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-headline-md text-on-background">The Monster Burger</h3>
+</div>
+<p class="font-body-md text-body-md text-tertiary mb-md flex-grow">
+                            Solo para valientes. Triple carne, aros de cebolla, huevo frito, tocino, y doble porción de vegetales frescos.
+                        </p>
+<div class="flex flex-wrap items-center justify-between gap-2 mt-auto">
+<span class="font-headline-md text-headline-md text-on-surface">Bs 18.90</span>
+<button class="h-[56px] px-6 bg-primary-container text-on-primary rounded-lg font-label-lg text-label-lg hover:bg-primary transition-colors flex items-center gap-2 active:scale-95 shadow-md">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+                                Personalizar
+                            </button>
+</div>
+</div>
+</article>
+</div>
+</section>
+</main>
+<!-- Floating Cart Action Button -->
+<div class="fixed bottom-margin-mobile right-margin-mobile md:bottom-margin-desktop md:right-margin-desktop z-50">
+<button type="button" data-route="../carrito_y_confirmaci_n/code.html" class="w-16 h-16 bg-primary-container text-on-primary rounded-full shadow-[0px_8px_24px_rgba(211,47,47,0.4)] hover:bg-primary hover:scale-105 active:scale-95 transition-all flex items-center justify-center relative">
+<span class="material-symbols-outlined text-[32px]" data-icon="shopping_cart" data-weight="fill">shopping_cart</span>
+<!-- Badge -->
+<span class="absolute top-0 right-0 transform translate-x-1/4 -translate-y-1/4 bg-surface-container-lowest border-2 border-primary-container text-primary-container font-label-md text-label-md font-bold w-6 h-6 flex items-center justify-center rounded-full shadow-sm">
+                2
+            </span>
+</button>
+</div>
+
+
+<script>
+    const categoryButtons = document.querySelectorAll('.category-button');
+    const products = document.querySelectorAll('[data-product]');
+    const search = document.getElementById('menuSearch');
+    function updateMenu() {
+        const category = document.querySelector('.category-button.bg-primary-container')?.dataset.category || 'all';
+        const query = (search?.value || '').trim().toLowerCase();
+        const categoryProducts = [...products].filter((product) => category === 'all' || product.dataset.category === category);
+        const effectiveCategory = categoryProducts.length ? category : 'all';
+        products.forEach((product) => {
+            const matchesCategory = effectiveCategory === 'all' || product.dataset.category === effectiveCategory;
+            const matchesSearch = !query || product.textContent.toLowerCase().includes(query);
+            product.hidden = !(matchesCategory && matchesSearch);
+        });
+        let emptyState = document.getElementById('menuEmptyState');
+        if (!emptyState) {
+            emptyState = document.createElement('p');
+            emptyState.id = 'menuEmptyState';
+            emptyState.className = 'col-span-full hidden py-lg text-center text-tertiary';
+            emptyState.textContent = 'No encontramos productos con esos filtros.';
+            products[0]?.parentElement.appendChild(emptyState);
+        }
+        emptyState.classList.toggle('hidden', products.some((product) => !product.hidden));
+    }
+    categoryButtons.forEach((button) => button.addEventListener('click', () => {
+        categoryButtons.forEach((item) => item.classList.remove('bg-primary-container', 'text-on-primary-container', 'shadow-md'));
+        categoryButtons.forEach((item) => item.classList.add('bg-surface-container-low', 'text-on-surface'));
+        button.classList.add('bg-primary-container', 'text-on-primary-container', 'shadow-md');
+        button.classList.remove('bg-surface-container-low', 'text-on-surface');
+        updateMenu();
+    }));
+    search?.addEventListener('input', updateMenu);
+</script>
+<script src="../navigation.js?v=3"></script>
+</body></html>

@@ -1,0 +1,363 @@
+<!DOCTYPE html><html lang="es"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>BurgerFlow - Carrito de Compras</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;900&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-dim": "#dadada",
+                        "tertiary-fixed-dim": "#c8c6c5",
+                        "on-primary": "#ffffff",
+                        "primary": "#af101a",
+                        "tertiary": "#575757",
+                        "surface-variant": "#e2e2e2",
+                        "inverse-surface": "#2f3131",
+                        "tertiary-fixed": "#e5e2e1",
+                        "surface": "#f9f9f9",
+                        "primary-container": "#d32f2f",
+                        "on-secondary-container": "#653900",
+                        "surface-container": "#eeeeee",
+                        "secondary-container": "#ff9800",
+                        "on-secondary-fixed-variant": "#693c00",
+                        "inverse-primary": "#ffb3ac",
+                        "on-tertiary-fixed": "#1b1c1c",
+                        "surface-container-low": "#f3f3f3",
+                        "surface-bright": "#f9f9f9",
+                        "error": "#ba1a1a",
+                        "outline": "#8f6f6c",
+                        "on-background": "#1a1c1c",
+                        "outline-variant": "#e4beba",
+                        "on-error": "#ffffff",
+                        "primary-fixed": "#ffdad6",
+                        "on-secondary": "#ffffff",
+                        "surface-container-high": "#e8e8e8",
+                        "inverse-on-surface": "#f1f1f1",
+                        "surface-container-highest": "#e2e2e2",
+                        "on-surface": "#1a1c1c",
+                        "on-primary-fixed": "#410003",
+                        "secondary-fixed": "#ffdcbe",
+                        "secondary-fixed-dim": "#ffb870",
+                        "on-tertiary-fixed-variant": "#474746",
+                        "surface-tint": "#ba1a20",
+                        "on-tertiary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-primary-container": "#fff2f0",
+                        "primary-fixed-dim": "#ffb3ac",
+                        "tertiary-container": "#706f6f",
+                        "background": "#f9f9f9",
+                        "on-secondary-fixed": "#2c1600",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed-variant": "#930010",
+                        "secondary": "#8b5000",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-container": "#f6f3f3",
+                        "on-surface-variant": "#5b403d"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "8px",
+                        "md": "24px",
+                        "sm": "12px",
+                        "margin-desktop": "32px",
+                        "margin-mobile": "16px",
+                        "xl": "64px",
+                        "lg": "40px",
+                        "xs": "4px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Montserrat"],
+                        "body-md": ["Inter"],
+                        "label-lg": ["Inter"],
+                        "display-lg": ["Montserrat"],
+                        "label-md": ["Inter"],
+                        "headline-lg-mobile": ["Montserrat"],
+                        "headline-lg": ["Montserrat"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .soft-float { box-shadow: 0px 4px 12px rgba(33, 33, 33, 0.08); }
+        .hover-soft-float:hover { box-shadow: 0px 8px 24px rgba(33, 33, 33, 0.12); }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md antialiased min-h-screen flex flex-col md:flex-row">
+<!-- TopNavBar for Mobile / Header -->
+<header class="md:hidden flex justify-between items-center w-full px-margin-mobile py-base bg-surface border-b-2 border-surface-variant sticky top-0 z-40">
+<button type="button" data-route="../men_de_clientes/code.html" class="font-headline-lg-mobile text-headline-lg-mobile font-black text-primary bg-transparent">BurgerFlow</button>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-primary text-2xl">shopping_cart</span>
+</div>
+</header>
+<!-- SideNavBar (Desktop ONLY, Suppressed as this is a transactional page, but requested structure asks for navigation shell logic. Since it's checkout, we suppress side/bottom navs to focus on task) -->
+<!-- The mandate: "Automatic Suppression: You MUST exclude the navigation shell if the page intent is: Linear/Transactional: Login, Sign-up, Onboarding, Checkout..." -->
+<!-- Main Content Area -->
+<main class="flex-1 w-full min-w-0 max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-lg pb-16 flex flex-col gap-md">
+<!-- TopAppBar Contextual Header -->
+<div class="hidden md:flex justify-between items-center w-full pb-sm border-b-2 border-surface-variant">
+<div class="font-headline-lg text-headline-lg font-black text-primary">BurgerFlow</div>
+<button type="button" data-route="../men_de_clientes/code.html" class="flex items-center gap-2 text-on-surface hover:text-primary font-label-lg text-label-lg">
+<span class="material-symbols-outlined">arrow_back</span> Seguir comprando
+</button>
+</div>
+<!-- Progress Bar -->
+<div class="w-full bg-surface-container rounded-full h-2 mb-sm overflow-hidden">
+<div class="bg-primary h-2 rounded-full" style="width: 33%;"></div>
+</div>
+<div class="flex justify-between text-label-md font-label-md text-on-surface-variant px-2">
+<span class="text-primary font-bold">Carrito</span>
+<span class="">Pago</span>
+<span class="">Confirmación</span>
+</div>
+<div class="flex flex-col lg:flex-row gap-gutter mt-sm">
+<!-- Left Column: Order Items -->
+<div class="flex-1 flex flex-col gap-base">
+<h1 class="font-headline-md text-headline-md text-on-surface mb-sm">Tu Pedido</h1>
+<!-- Item Card 1 -->
+<div class="bg-surface-container-lowest rounded-lg p-sm flex items-center gap-sm soft-float relative overflow-hidden group">
+<div class="w-24 h-24 rounded-md overflow-hidden bg-surface-container-low flex-shrink-0">
+<img alt="Double Bacon Burger" class="w-full h-full object-cover" data-alt="A close-up, highly detailed shot of a double cheeseburger with melted cheddar, crispy bacon, and fresh lettuce. The burger sits on a clean, modern white plate in a bright, well-lit environment. The aesthetic is appetizing and high-end street food, featuring vibrant primary red accents in the background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCv-u5ixAeMzChF4M4DO8n-VENxiYOsswUtiz46a2NUGCvka5fb11uOqrcFg4f113X28Z8xfgDONtlKTNOTvcJp1fbVQ4FHY4TaFdtyHWPg2cg4tZZVQbkx8HaUFAJ4BRcNKtmaeqawlLN99-17yAOcfHkvUxI5AgsITtaFrK9yhhcs1cB30Li8qVKAjWcKoZnxtqexrzK2xXitkGLosxG15VyW3Eo2pyR0IJSKOJ9KGnTP4rBvl4x3">
+</div>
+<div class="flex-1">
+<div class="flex flex-wrap justify-between items-start gap-2">
+<h2 class="font-label-lg text-label-lg text-on-surface">Double Bacon Smash</h2>
+<span class="font-label-lg text-label-lg text-on-surface">Bs 14.50</span>
+</div>
+<p class="font-label-md text-label-md text-tertiary mt-xs">+ Extra Bacon, Sin Cebolla</p>
+<!-- Stepper -->
+<div class="flex items-center gap-2 mt-sm bg-surface-container-low w-fit rounded-full px-2 py-1">
+<button aria-label="Decrease quantity" class="w-8 h-8 flex items-center justify-center rounded-full text-on-surface-variant hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-lg">remove</span>
+</button>
+<span class="font-label-lg text-label-lg w-6 text-center">1</span>
+<button aria-label="Increase quantity" class="w-8 h-8 flex items-center justify-center rounded-full text-primary hover:bg-primary-fixed transition-colors">
+<span class="material-symbols-outlined text-lg">add</span>
+</button>
+</div>
+</div>
+<!-- Remove action on hover -->
+<button class="absolute top-sm right-sm text-tertiary opacity-0 group-hover:opacity-100 transition-opacity hover:text-error">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+<!-- Item Card 2 -->
+<div class="bg-surface-container-lowest rounded-lg p-sm flex items-center gap-sm soft-float relative overflow-hidden group">
+<div class="w-24 h-24 rounded-md overflow-hidden bg-surface-container-low flex-shrink-0">
+<img alt="Crinkle Fries" class="w-full h-full object-cover" data-alt="A stylized, crisp image of golden, crinkle-cut french fries served in a minimalist white container. The lighting is bright and clean, emphasizing the texture of the fries. The background subtly incorporates light mode tones with a hint of deep corporate modern grey. The mood is fresh and efficient." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJuJ-l7reHtLsXZUpMZ0P3MVndtE1OJQT-tC360JDdgBMih84qRAXgt9J4O16tSKV1y_NemMVyh2z57zOLEch5apGr365Pb1k7qlvXkzp2ZiCOFfA0bQvkJzzerm7NKKc3Y9hmSs-e36G_Z9mkDd4Hd--q82BWr3PZyh0dprl1RZMT4ooFp00mH5XtEundVQ5EmJAVgxjpdtl42It1SNdiMGNeadZ3ijNawRd4gA7SB4OsXhhd4hWV">
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h2 class="font-label-lg text-label-lg text-on-surface">Crinkle Fries (L)</h2>
+<span class="font-label-lg text-label-lg text-on-surface">Bs 4.50</span>
+</div>
+<p class="font-label-md text-label-md text-tertiary mt-xs">Salsa de Queso Aparte</p>
+<div class="flex items-center gap-2 mt-sm bg-surface-container-low w-fit rounded-full px-2 py-1">
+<button aria-label="Decrease quantity" class="w-8 h-8 flex items-center justify-center rounded-full text-on-surface-variant hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-lg">remove</span>
+</button>
+<span class="font-label-lg text-label-lg w-6 text-center">1</span>
+<button aria-label="Increase quantity" class="w-8 h-8 flex items-center justify-center rounded-full text-primary hover:bg-primary-fixed transition-colors">
+<span class="material-symbols-outlined text-lg">add</span>
+</button>
+</div>
+</div>
+<button class="absolute top-sm right-sm text-tertiary opacity-0 group-hover:opacity-100 transition-opacity hover:text-error">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+</div>
+<!-- Right Column: Summary & Checkout -->
+<div class="w-full max-w-sm flex flex-col gap-base">
+<!-- Dining Options -->
+<div class="bg-surface-container-lowest rounded-lg p-sm soft-float flex flex-col gap-sm">
+<h3 class="font-label-lg text-label-lg text-on-surface border-b border-surface-variant pb-xs">Opciones de Entrega</h3>
+<div class="flex gap-sm">
+<label class="flex-1 relative cursor-pointer group">
+<input checked="" class="peer sr-only" name="dining_option" type="radio">
+<div class="p-sm border-2 border-surface-variant rounded-md text-center peer-checked:border-primary peer-checked:bg-primary-fixed-dim peer-checked:text-on-primary-fixed transition-all">
+<span class="material-symbols-outlined block mb-1">restaurant</span>
+<span class="font-label-md text-label-md">Comer aquí</span>
+</div>
+</label>
+<label class="flex-1 relative cursor-pointer group">
+<input class="peer sr-only" name="dining_option" type="radio">
+<div class="p-sm border-2 border-surface-variant rounded-md text-center peer-checked:border-primary peer-checked:bg-primary-fixed-dim peer-checked:text-on-primary-fixed transition-all">
+<span class="material-symbols-outlined block mb-1">takeout_dining</span>
+<span class="font-label-md text-label-md">Para llevar</span>
+</div>
+</label>
+</div>
+</div>
+<!-- Order Summary -->
+<div class="bg-surface-container-lowest rounded-lg p-md soft-float flex flex-col gap-sm">
+<h3 class="font-label-lg text-label-lg text-on-surface border-b border-surface-variant pb-xs mb-xs">Resumen</h3>
+<div class="flex justify-between font-body-md text-body-md text-on-surface-variant">
+<span class="">Subtotal</span>
+<span class="">Bs 19.00</span>
+</div>
+<div class="flex justify-between font-body-md text-body-md text-on-surface-variant">
+<span class="">Impuestos (8%)</span>
+<span class="">Bs 1.52</span>
+</div>
+<div class="flex justify-between font-body-md text-body-md text-on-surface-variant">
+<span class="">Cargo por Servicio</span>
+<span class="">Bs 0.50</span>
+</div>
+<div class="border-t border-surface-variant my-xs"></div>
+<div class="flex justify-between font-headline-md text-headline-md text-primary">
+<span class="">Total</span>
+<span class="">Bs 21.02</span>
+</div>
+<label class="flex flex-col gap-xs font-label-md text-label-md text-on-surface-variant">Método de pago<select id="paymentMethod" required class="w-full border-2 border-surface-variant rounded-lg p-sm bg-surface-container-lowest"><option value="">Selecciona un método</option><option value="Efectivo">Efectivo</option><option value="Tarjeta">Tarjeta</option><option value="QR">QR</option></select></label>
+<button class="mt-sm w-full bg-primary-container text-on-primary font-label-lg text-label-lg h-14 rounded-lg soft-float hover-soft-float transition-all active:scale-95 flex items-center justify-center gap-2" id="confirmOrderBtn">
+<span class="">Ir a Pagar</span>
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<!-- Overlay / Confirmation (Hidden by default, shown via JS for demo purposes) -->
+<div class="fixed inset-0 bg-on-surface/50 z-50 hidden flex items-center justify-center p-margin-mobile backdrop-blur-sm transition-opacity opacity-0" id="confirmationOverlay">
+<div class="bg-surface-container-lowest w-full max-w-md rounded-xl p-lg flex flex-col items-center text-center soft-float transform scale-95 transition-transform duration-300 shadow-2xl relative overflow-hidden">
+<!-- Top Accent Bar -->
+<div class="absolute top-0 left-0 w-full h-2 bg-primary"></div>
+<div class="w-20 h-20 bg-primary-fixed rounded-full flex items-center justify-center mb-md">
+<span class="material-symbols-outlined text-primary text-4xl" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-xs">¡Pedido Recibido!</h2>
+<p class="font-headline-md text-headline-md text-primary font-bold mb-md">#BF-1024</p>
+<div class="w-full bg-surface-container-low rounded-lg p-sm mb-md flex flex-col gap-xs text-left">
+<div class="flex justify-between font-label-md text-label-md">
+<span class="text-tertiary">Estado:</span>
+<span class="text-secondary-container font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">skillet</span>
+                        Enviado a Cocina
+                    </span>
+</div>
+<div class="flex justify-between font-label-md text-label-md">
+<span class="text-tertiary">Tipo:</span>
+<span class="text-on-surface">Comer en el local</span>
+</div>
+<div class="flex justify-between font-label-md text-label-md">
+<span class="text-tertiary">Total Pagado:</span>
+<span class="text-on-surface font-bold">Bs 21.02</span>
+</div>
+</div>
+<button class="w-full border-2 border-surface-variant text-on-surface font-label-lg text-label-lg h-12 rounded-lg hover:bg-surface-container transition-colors" id="closeOverlayBtn">
+                Volver al Inicio
+            </button>
+<button class="w-full mt-sm bg-primary-container text-on-primary font-label-lg text-label-lg h-12 rounded-lg hover:bg-primary transition-colors" id="continueShoppingBtn">
+                Seguir comprando
+            </button>
+</div>
+</div>
+<script>
+        // Simple interaction for demo purposes to show the confirmation overlay
+        document.getElementById('confirmOrderBtn').addEventListener('click', function() {
+            const overlay = document.getElementById('confirmationOverlay');
+            const modal = overlay.querySelector('div');
+            
+            overlay.classList.remove('hidden');
+            // Small delay to allow display:block to apply before animating opacity
+            setTimeout(() => {
+                overlay.classList.remove('opacity-0');
+                modal.classList.remove('scale-95');
+                modal.classList.add('scale-100');
+            }, 10);
+        });
+
+        document.getElementById('closeOverlayBtn').addEventListener('click', function() {
+            const overlay = document.getElementById('confirmationOverlay');
+            const modal = overlay.querySelector('div');
+            
+            overlay.classList.add('opacity-0');
+            modal.classList.remove('scale-100');
+            modal.classList.add('scale-95');
+            
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+            }, 300);
+        });
+
+        document.getElementById('continueShoppingBtn').addEventListener('click', function() {
+            window.location.href = '../men_de_clientes/code.html';
+        });
+    </script>
+
+
+<script src="../navigation.js?v=3"></script>
+<script>
+        const cartMain = document.querySelector('main');
+        const cartItems = () => [...cartMain.querySelectorAll('.group')].filter((item) => item.querySelector('button[aria-label="Increase quantity"]'));
+        const money = (value) => `Bs ${value.toFixed(2)}`;
+        function updateCart() {
+            const items = cartItems();
+            let subtotal = 0;
+            items.forEach((item) => {
+                const priceText = item.querySelector('h2 + span')?.textContent.trim();
+                const increaseButton = item.querySelector('button[aria-label="Increase quantity"]');
+                const quantity = Number(increaseButton?.previousElementSibling?.textContent.trim()) || 0;
+                subtotal += Number(priceText?.replace('Bs', '').trim()) * quantity;
+            });
+            const tax = subtotal * 0.08;
+            const service = items.length ? 0.5 : 0;
+            const total = subtotal + tax + service;
+            const summary = document.getElementById('confirmOrderBtn').parentElement;
+            const values = [...summary.querySelectorAll('.justify-between span:last-child')];
+            if (values.length >= 4) {
+                values[0].textContent = money(subtotal);
+                values[1].textContent = money(tax);
+                values[2].textContent = money(service);
+                values[3].textContent = money(total);
+            }
+            const payButton = document.getElementById('confirmOrderBtn');
+            payButton.disabled = !items.length;
+            payButton.classList.toggle('opacity-50', !items.length);
+            payButton.classList.toggle('cursor-not-allowed', !items.length);
+            let empty = document.getElementById('emptyCartMessage');
+            if (!empty) {
+                empty = document.createElement('p');
+                empty.id = 'emptyCartMessage';
+                empty.className = 'hidden text-center text-tertiary p-md';
+                empty.textContent = 'Tu carrito está vacío.';
+                cartItems().at(-1)?.parentElement?.appendChild(empty);
+            }
+            empty.classList.toggle('hidden', Boolean(items.length));
+        }
+        cartMain.addEventListener('click', () => setTimeout(updateCart, 0));
+        const paymentField = document.getElementById('paymentMethod');
+        document.getElementById('confirmOrderBtn').addEventListener('click', (event) => {
+            if (!cartItems().length || !paymentField.value) {
+                event.preventDefault();
+                event.stopImmediatePropagation();
+            }
+        }, true);
+        updateCart();
+    </script>
+</body></html>

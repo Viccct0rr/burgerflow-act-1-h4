@@ -1,0 +1,355 @@
+<!DOCTYPE html><html lang="es"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>BurgerFlow - Customize Item</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Montserrat:wght@600;700;900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-dim": "#dadada",
+                        "tertiary-fixed-dim": "#c8c6c5",
+                        "on-primary": "#ffffff",
+                        "primary": "#af101a",
+                        "tertiary": "#575757",
+                        "surface-variant": "#e2e2e2",
+                        "inverse-surface": "#2f3131",
+                        "tertiary-fixed": "#e5e2e1",
+                        "surface": "#f9f9f9",
+                        "primary-container": "#d32f2f",
+                        "on-secondary-container": "#653900",
+                        "surface-container": "#eeeeee",
+                        "secondary-container": "#ff9800",
+                        "on-secondary-fixed-variant": "#693c00",
+                        "inverse-primary": "#ffb3ac",
+                        "on-tertiary-fixed": "#1b1c1c",
+                        "surface-container-low": "#f3f3f3",
+                        "surface-bright": "#f9f9f9",
+                        "error": "#ba1a1a",
+                        "outline": "#8f6f6c",
+                        "on-background": "#1a1c1c",
+                        "outline-variant": "#e4beba",
+                        "on-error": "#ffffff",
+                        "primary-fixed": "#ffdad6",
+                        "on-secondary": "#ffffff",
+                        "surface-container-high": "#e8e8e8",
+                        "inverse-on-surface": "#f1f1f1",
+                        "surface-container-highest": "#e2e2e2",
+                        "on-surface": "#1a1c1c",
+                        "on-primary-fixed": "#410003",
+                        "secondary-fixed": "#ffdcbe",
+                        "secondary-fixed-dim": "#ffb870",
+                        "on-tertiary-fixed-variant": "#474746",
+                        "surface-tint": "#ba1a20",
+                        "on-tertiary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-primary-container": "#fff2f0",
+                        "primary-fixed-dim": "#ffb3ac",
+                        "tertiary-container": "#706f6f",
+                        "background": "#f9f9f9",
+                        "on-secondary-fixed": "#2c1600",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed-variant": "#930010",
+                        "secondary": "#8b5000",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-container": "#f6f3f3",
+                        "on-surface-variant": "#5b403d"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "8px",
+                        "md": "24px",
+                        "sm": "12px",
+                        "margin-desktop": "32px",
+                        "margin-mobile": "16px",
+                        "xl": "64px",
+                        "lg": "40px",
+                        "xs": "4px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Montserrat"],
+                        "body-md": ["Inter"],
+                        "label-lg": ["Inter"],
+                        "display-lg": ["Montserrat"],
+                        "label-md": ["Inter"],
+                        "headline-lg-mobile": ["Montserrat"],
+                        "headline-lg": ["Montserrat"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar for focus view */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #e2e2e2; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #c8c6c5; }
+        
+        /* Hide number input spinners */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+        .customizer-scroll { min-height: 0; padding-bottom: 180px !important; overscroll-behavior: contain; }
+        body.customizer-page { height: auto; min-height: 100vh; overflow-y: auto; }
+        body.customizer-page .customizer-main { overflow: visible; }
+        body.customizer-page .customizer-layout { height: auto; min-height: calc(100vh - 72px); }
+        body.customizer-page .customizer-panel { height: auto; min-height: calc(100vh - 72px); }
+        body.customizer-page .customizer-scroll { overflow: visible; }
+        @media (max-width: 1023px) {
+            body { height: auto; min-height: 100vh; overflow: auto !important; }
+            .customizer-main { overflow: visible !important; }
+            .customizer-layout { height: auto; min-height: calc(100vh - 72px); }
+            .customizer-panel { height: auto; min-height: calc(100vh - 72px); }
+            .customizer-scroll { overflow: visible !important; padding-bottom: 240px !important; }
+        }
+    </style>
+</head>
+<body class="customizer-page bg-surface text-on-surface min-h-screen w-full flex flex-col font-body-md text-body-md antialiased">
+<!-- Top Action Bar (Transactional Context) -->
+<header class="flex-none flex justify-between items-center px-margin-desktop py-sm bg-surface w-full z-10 border-b-2 border-surface-variant">
+<button class="flex items-center gap-2 text-on-surface hover:text-primary transition-colors py-2 px-4 rounded-lg hover:bg-surface-container-low" type="button" data-route="../men_de_clientes/code.html">
+<span class="material-symbols-outlined text-[28px]">close</span>
+<span class="font-label-lg text-label-lg uppercase">Volver al Menú</span>
+</button>
+<div class="font-headline-md text-headline-md font-bold text-primary tracking-tight">BurgerFlow</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-1 customizer-main">
+<div class="h-full w-full max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-12 customizer-layout">
+<!-- Left Side: Product Image Canvas -->
+<div class="hidden lg:flex lg:col-span-5 h-full bg-surface-container-low items-center justify-center p-xl relative overflow-hidden">
+<!-- Abstract decorative shape behind image -->
+<div class="absolute inset-0 opacity-20 pointer-events-none" style="background: radial-gradient(circle at center, #d32f2f 0%, transparent 60%);"></div>
+<div class="w-full aspect-square max-w-[600px] bg-cover bg-center rounded-2xl shadow-[0px_16px_32px_rgba(33,33,33,0.15)] relative z-10 border-4 border-surface-container-lowest transform transition-transform duration-500 hover:scale-[1.02]" data-alt="A highly detailed, professional food photography shot of a massive 'Bacon Blast Burger' sitting on a modern wooden block in a brightly lit kitchen environment. The light-mode aesthetic features crisp whites and subtle cool grays, contrasting with the vibrant reds and rich browns of the gourmet burger. The lighting is studio-quality, creating a mouth-watering, glossy texture on the melted cheese and crispy bacon, embodying a premium, high-energy street food vibe." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDwvnVd-XRrcHQr4Yye9PwnCtzpA4LTUKVqy3hAG5tf0AlmpV9bgGvQ_ub-4snqoN4USwWRHEBzXPucRT-ke3X7D0TVaE-qUAmZuxLsBeVNLK1JsBlhKWQpefqcwDr99Zjv5DR5J5kusCzWPK-zEROoYNqYtPCaBv6L-ntRkjXU4rAhI-ZzPdhlXuO-f8nfR8VznnPSXaddiGu83D0TP9N5OfI4o2-YO3fHIFAI6LQym0wPi80xU3kC')">
+</div>
+<!-- Status Badge -->
+<div class="absolute top-10 right-10 bg-secondary-container text-on-secondary-container font-label-lg text-label-lg uppercase px-4 py-2 rounded-full shadow-md z-20 flex items-center gap-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+                    Más Vendido
+                </div>
+</div>
+<!-- Right Side: Customization Panel -->
+<div class="col-span-1 lg:col-span-7 h-full flex flex-col bg-surface-container-lowest border-l-2 border-surface-variant relative shadow-[-12px_0px_24px_rgba(33,33,33,0.03)] customizer-panel">
+<!-- Scrollable Content -->
+<div class="flex-1 overflow-y-auto px-margin-mobile lg:px-xl py-lg space-y-md pb-32 customizer-scroll">
+<!-- Header Info -->
+<div class="space-y-sm">
+<div class="flex justify-between items-start gap-4">
+<h1 class="font-display-lg text-display-lg md:font-headline-lg md:text-headline-lg font-black text-on-surface leading-tight">Bacon Blast Burger</h1>
+<span class="font-headline-lg text-headline-lg font-bold text-primary-container whitespace-nowrap">Bs 14.50</span>
+</div>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">Doble medallón de carne de res, triple ración de tocino crujiente, queso cheddar fundido, cebolla caramelizada y nuestra salsa especial Flow.</p>
+</div>
+<hr class="border-t-2 border-surface-variant my-md">
+<!-- Section: Elegir Tamaño -->
+<section class="space-y-sm">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-primary text-[28px]" style="font-variation-settings: 'FILL' 1;">straighten</span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Elegir Tamaño</h2>
+<span class="ml-auto bg-surface-container-high text-on-surface-variant font-label-md text-label-md px-2 py-1 rounded">Requerido</span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-sm">
+<!-- Option 1: Regular (Active) -->
+<label class="relative flex items-center p-4 border-2 border-primary bg-primary-fixed-dim bg-opacity-10 rounded-xl cursor-pointer hover:bg-surface-container transition-colors">
+<input checked="" class="peer sr-only" name="size" type="radio" value="regular">
+<div class="flex-1">
+<span class="block font-label-lg text-label-lg text-on-surface mb-1">Regular</span>
+<span class="block font-body-md text-body-md text-on-surface-variant">200g de carne</span>
+</div>
+<span class="material-symbols-outlined text-primary text-[28px]" style="font-variation-settings: 'FILL' 1;">radio_button_checked</span>
+</label>
+<!-- Option 2: Grande -->
+<label class="relative flex items-center p-4 border-2 border-surface-variant bg-surface rounded-xl cursor-pointer hover:bg-surface-container transition-colors">
+<input class="peer sr-only" name="size" type="radio" value="grande">
+<div class="flex-1">
+<span class="block font-label-lg text-label-lg text-on-surface mb-1">Grande</span>
+<span class="block font-body-md text-body-md text-on-surface-variant text-primary font-medium">+ Bs 2.00</span>
+</div>
+<span class="material-symbols-outlined text-surface-variant text-[28px]">radio_button_unchecked</span>
+</label>
+</div>
+</section>
+<hr class="border-t-2 border-surface-variant my-md">
+<!-- Section: Agregar Extras -->
+<section class="space-y-sm">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-secondary-container text-[28px]" style="font-variation-settings: 'FILL' 1;">add_circle</span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Agregar Extras</h2>
+</div>
+<div class="flex flex-col space-y-2">
+<!-- Extra Item -->
+<label class="flex items-center justify-between p-4 bg-surface rounded-xl border-2 border-transparent hover:border-surface-variant transition-all cursor-pointer">
+<div class="flex items-center gap-4">
+<input class="w-6 h-6 rounded border-surface-variant text-primary focus:ring-primary focus:ring-offset-surface" type="checkbox">
+<span class="font-body-md text-body-md font-medium text-on-surface">Queso extra</span>
+</div>
+<span class="font-label-lg text-label-lg text-on-surface-variant">+ Bs 1.00</span>
+</label>
+<!-- Extra Item -->
+<label class="flex items-center justify-between p-4 bg-surface rounded-xl border-2 border-transparent hover:border-surface-variant transition-all cursor-pointer">
+<div class="flex items-center gap-4">
+<input class="w-6 h-6 rounded border-surface-variant text-primary focus:ring-primary focus:ring-offset-surface" type="checkbox">
+<span class="font-body-md text-body-md font-medium text-on-surface">Tocino extra</span>
+</div>
+<span class="font-label-lg text-label-lg text-on-surface-variant">+ Bs 1.50</span>
+</label>
+<!-- Extra Item -->
+<label class="flex items-center justify-between p-4 bg-surface rounded-xl border-2 border-transparent hover:border-surface-variant transition-all cursor-pointer">
+<div class="flex items-center gap-4">
+<input class="w-6 h-6 rounded border-surface-variant text-primary focus:ring-primary focus:ring-offset-surface" type="checkbox">
+<span class="font-body-md text-body-md font-medium text-on-surface">Huevo frito</span>
+</div>
+<span class="font-label-lg text-label-lg text-on-surface-variant">+ Bs 1.00</span>
+</label>
+<!-- Extra Item -->
+<label class="flex items-center justify-between p-4 bg-surface rounded-xl border-2 border-transparent hover:border-surface-variant transition-all cursor-pointer">
+<div class="flex items-center gap-4">
+<input class="w-6 h-6 rounded border-surface-variant text-primary focus:ring-primary focus:ring-offset-surface" type="checkbox">
+<span class="font-body-md text-body-md font-medium text-on-surface">Aros de cebolla</span>
+</div>
+<span class="font-label-lg text-label-lg text-on-surface-variant">+ Bs 1.20</span>
+</label>
+</div>
+</section>
+<hr class="border-t-2 border-surface-variant my-md">
+<!-- Section: Quitar Ingredientes -->
+<section class="space-y-sm">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-tertiary text-[28px]" style="font-variation-settings: 'FILL' 1;">remove_circle</span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Quitar Ingredientes</h2>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-sm">
+<!-- Remove Item -->
+<label class="flex items-center gap-3 p-4 bg-surface rounded-xl border-2 border-transparent hover:border-surface-variant transition-all cursor-pointer">
+<input class="w-6 h-6 rounded border-surface-variant text-tertiary focus:ring-tertiary focus:ring-offset-surface" type="checkbox">
+<span class="font-body-md text-body-md font-medium text-on-surface">Sin Cebolla</span>
+</label>
+<!-- Remove Item -->
+<label class="flex items-center gap-3 p-4 bg-surface rounded-xl border-2 border-transparent hover:border-surface-variant transition-all cursor-pointer">
+<input class="w-6 h-6 rounded border-surface-variant text-tertiary focus:ring-tertiary focus:ring-offset-surface" type="checkbox">
+<span class="font-body-md text-body-md font-medium text-on-surface">Sin Pickles</span>
+</label>
+</div>
+</section>
+</div>
+<!-- Sticky Bottom Action Bar -->
+<div class="absolute bottom-0 left-0 right-0 bg-surface-container-lowest p-margin-mobile lg:p-md border-t-2 border-surface-variant shadow-[0px_-8px_16px_rgba(33,33,33,0.05)] flex flex-col sm:flex-row items-center gap-4 z-30">
+<!-- Quantity Selector -->
+<div class="flex items-center bg-surface-container-low rounded-lg h-[56px] border-2 border-surface-variant w-full sm:w-auto shrink-0">
+<button class="w-14 h-full flex items-center justify-center text-on-surface hover:text-primary transition-colors hover:bg-surface-container rounded-l-md">
+<span class="material-symbols-outlined">remove</span>
+</button>
+<input class="w-16 h-full text-center bg-transparent border-none font-headline-md text-headline-md text-on-surface focus:ring-0 p-0 m-0" min="1" type="number" value="1">
+<button class="w-14 h-full flex items-center justify-center text-on-surface hover:text-primary transition-colors hover:bg-surface-container rounded-r-md">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+<!-- Add to Cart CTA -->
+<button id="addToCartBtn" class="w-full h-[56px] bg-primary text-on-primary hover:bg-primary-container shadow-[0px_4px_12px_rgba(33,33,33,0.08)] hover:shadow-[0px_8px_16px_rgba(33,33,33,0.12)] transition-all rounded-lg px-6 flex items-center justify-between flex-1 group active:scale-[0.98]">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined group-hover:-translate-y-1 transition-transform">shopping_cart</span>
+<span class="font-label-lg text-label-lg uppercase tracking-wider">Agregar al Carrito</span>
+</div>
+<span class="font-headline-md text-headline-md font-bold">Total: Bs 15.40</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<script>
+        // Micro-interactions for radio buttons to visually update the selected card
+        document.addEventListener('DOMContentLoaded', () => {
+            const sizeRadios = document.querySelectorAll('input[name="size"]');
+            
+            sizeRadios.forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    // Reset all cards
+                    sizeRadios.forEach(r => {
+                        const parent = r.closest('label');
+                        parent.classList.remove('border-primary', 'bg-primary-fixed-dim', 'bg-opacity-10');
+                        parent.classList.add('border-surface-variant', 'bg-surface');
+                        const icon = parent.querySelector('.material-symbols-outlined');
+                        icon.textContent = 'radio_button_unchecked';
+                        icon.classList.remove('text-primary');
+                        icon.classList.add('text-surface-variant');
+                        icon.style.fontVariationSettings = "'FILL' 0";
+                    });
+
+                    // Set active card
+                    if(e.target.checked) {
+                        const parent = e.target.closest('label');
+                        parent.classList.remove('border-surface-variant', 'bg-surface');
+                        parent.classList.add('border-primary', 'bg-primary-fixed-dim', 'bg-opacity-10');
+                        const icon = parent.querySelector('.material-symbols-outlined');
+                        icon.textContent = 'radio_button_checked';
+                        icon.classList.remove('text-surface-variant');
+                        icon.classList.add('text-primary');
+                        icon.style.fontVariationSettings = "'FILL' 1";
+                    }
+                });
+            });
+
+            const quantityInput = document.querySelector('input[type="number"]');
+            const quantityButtons = quantityInput?.parentElement.querySelectorAll('button');
+            quantityButtons?.[0].addEventListener('click', () => {
+                quantityInput.value = Math.max(1, Number(quantityInput.value) - 1);
+            });
+            quantityButtons?.[1].addEventListener('click', () => {
+                quantityInput.value = Number(quantityInput.value) + 1;
+            });
+        });
+    </script>
+
+
+<script src="../navigation.js?v=3"></script>
+<script>
+        const customizationTotal = document.querySelector('button:last-child .font-headline-md');
+        const customizationQuantity = document.querySelector('input[type="number"]');
+        function updateCustomizationTotal() {
+            const size = document.querySelector('input[name="size"]:checked');
+            const base = Number(document.querySelector('h1 + span')?.textContent.match(/Bs\s*([\d.]+)/)?.[1] || 0) + (size?.value === 'grande' ? 2 : 0);
+            const extras = [...document.querySelectorAll('input[type="checkbox"]:checked')].reduce((sum, input) => sum + Number(input.closest('label').textContent.match(/\+\s*Bs\s*([\d.]+)/)?.[1] || 0), 0);
+            const total = (base + extras) * Math.max(1, Number(customizationQuantity.value) || 1);
+            if (customizationTotal) customizationTotal.textContent = `Total: Bs ${total.toFixed(2)}`;
+        }
+        document.querySelectorAll('input[name="size"], input[type="checkbox"]').forEach((input) => input.addEventListener('change', updateCustomizationTotal));
+        customizationQuantity?.addEventListener('input', updateCustomizationTotal);
+        document.getElementById('addToCartBtn')?.addEventListener('click', () => {
+            sessionStorage.setItem('burgerflowCustomization', JSON.stringify({
+                product: document.querySelector('h1')?.textContent.trim(),
+                size: document.querySelector('input[name="size"]:checked')?.value,
+                extras: [...document.querySelectorAll('input[type="checkbox"]:checked')].map((input) => input.closest('label').textContent.trim()),
+                quantity: Number(customizationQuantity.value) || 1
+            }));
+        });
+        updateCustomizationTotal();
+    </script>
+</body></html>
