@@ -255,7 +255,25 @@ test('only the assigned delivery account can read a specific order and its addre
     assert.equal(responseText.includes('Cliente Ficticio'), false);
     assert.deepEqual(denied.body, { error: 'Pedido no encontrado.' });
   }
-  assert.equal(db.prepare('SELECT repartidor_id FROM orders WHERE id = ?').get(firstOrder.id).repartidor_id, driverAId);
+
+  await admin.patch(`/api/orders/${firstOrder.id}/assign`)
+    .send({ deliveryUserId: driverBId }).expect(204);
+  const reassignedOrder = db.prepare('SELECT repartidor_id FROM orders WHERE id = ?').get(firstOrder.id);
+  assert.equal(reassignedOrder.repartidor_id, driverBId);
+
+  const formerDriverResponse = await driverA.get(`/api/orders/${firstOrder.id}?userId=${driverBId}`).expect(404);
+  assert.deepEqual(formerDriverResponse.body, { error: 'Pedido no encontrado.' });
+  const formerDriverBody = JSON.stringify(formerDriverResponse.body);
+  assert.equal(formerDriverBody.includes('Calle de Prueba 100'), false);
+  assert.equal(formerDriverBody.includes('+1 555 0100'), false);
+  assert.equal(formerDriverBody.includes('Cliente Ficticio'), false);
+
+  const newDriverResponse = await driverB.get(`/api/orders/${firstOrder.id}`).expect(200);
+  assert.equal(newDriverResponse.body.order.delivery.address, 'Calle de Prueba 100');
+  assert.equal(newDriverResponse.body.order.delivery.phone, '+1 555 0100');
+  assert.equal(newDriverResponse.body.order.delivery.name, 'Cliente Ficticio');
+  assert.equal(db.prepare('SELECT repartidor_id FROM orders WHERE id = ?').get(firstOrder.id).repartidor_id, driverBId);
+  assert.equal(db.prepare('SELECT repartidor_id FROM orders WHERE id = ?').get(secondOrder.id).repartidor_id, driverAId);
   assert.notEqual(driverAId, driverBId);
 });
 

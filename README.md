@@ -140,7 +140,7 @@ npm run test:assignment
 npm audit
 ```
 
-La suite automatizada cubre autenticación y permisos, CRUD de productos, persistencia al reiniciar SQLite, precio oficial del servidor, cantidades inválidas, inventario insuficiente, aislamiento de datos de entrega, pertenencia de delivery, transiciones de estado y reversión de existencias. `npm run test:assignment` ejecuta la demostración específica del docente: A puede consultar dos pedidos asignados; B recibe `404` para esos mismos IDs sin recibir datos personales. También se comprueba que la migración preserva asignaciones existentes y que los triggers rechazan cuentas con roles incorrectos.
+La suite automatizada cubre autenticación y permisos, CRUD de productos, persistencia al reiniciar SQLite, precio oficial del servidor, cantidades inválidas, inventario insuficiente, aislamiento de datos de entrega, pertenencia de delivery, transiciones de estado y reversión de existencias. `npm run test:assignment` ejecuta la demostración específica del docente: A puede consultar pedidos asignados; B recibe `404` para esos mismos IDs sin recibir datos personales. Con ambas sesiones abiertas, la prueba reasigna uno de los pedidos de A a B y verifica que A pierde acceso mientras B obtiene la dirección. También se comprueba que la migración preserva asignaciones existentes y que los triggers rechazan cuentas con roles incorrectos.
 
 ## Límites y despliegue
 
