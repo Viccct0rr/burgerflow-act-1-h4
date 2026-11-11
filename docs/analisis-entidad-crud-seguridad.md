@@ -1,117 +1,140 @@
-# Análisis de entidad, operaciones CRUD y seguridad — BurgerFlow
+# Análisis técnico de entidad, CRUD y seguridad — BurgerFlow
 
-## Alcance y limitaciones
-
-La inspección encontró un prototipo estático bajo `mockup/`, no un proyecto React: no hay `package.json`, fuentes `.jsx`/`.tsx`, modelos tipados ni configuración de rutas de React en el workspace. El README identifica el entregable como una maqueta navegable que se abre desde `index.html` y no requiere servidor ([README.md](../mockup/README.md#L1), [README.md](../mockup/README.md#L5)). Por tanto, las páginas y operaciones descritas a continuación son evidencia de la interfaz y de interacciones locales, no de un sistema con backend, usuarios autenticados o datos persistidos. Los archivos HTML cargan recursos de presentación externos y `navigation.js`; no se observó cliente HTTP, endpoint ni conexión de base de datos.
+**Fecha de actualización:** 11 de noviembre de 2026
+**Alcance:** prototipo local de persistencia, API y controles de acceso.
 
 ## 1. Descripción breve del sistema
 
-BurgerFlow representa la gestión operativa de un restaurante y el flujo de compra de sus productos. Incluye vistas de panel, POS, menú de clientes, carrito, inventario, cocina y reparto, conectadas mediante enlaces entre archivos HTML. Las pantallas muestran pedidos, productos, ventas y estados de preparación, pero la mayoría de sus datos son estáticos o se modifican solo en el DOM del navegador. No se encontró conexión con una base de datos ni autenticación real.
+BurgerFlow conserva sus pantallas originales en HTML, CSS y JavaScript; no es una aplicación React. Ahora puede ejecutarse con Node.js, Express y SQLite para persistir catálogo, inventario y pedidos. El recorrido integrado enlaza el menú, personalización, carrito/POS, cocina y reparto mediante una API local. No procesa pagos reales ni debe confundirse con un servicio listo para producción.
 
 ## 2. Entidad principal: Pedido
 
-**Justificación.** Se selecciona `Pedido` porque articula el recorrido funcional central: el cliente configura productos y revisa el carrito, el POS representa la venta, cocina muestra su preparación y delivery muestra su despacho. La lámina de arquitectura también describe el flujo menú → personalización → carrito → orden ([arquitectura-componentes.svg](../mockup/arquitectura-componentes.svg#L54), [arquitectura-componentes.svg](../mockup/arquitectura-componentes.svg#L69)). Esta es una elección analítica; no existe una entidad `Pedido` formalmente declarada en código.
+**Justificación.** `Pedido` conecta la selección del cliente o cajero con el inventario, la preparación de cocina y la entrega. Se persiste con líneas históricas y transiciones auditadas. Se separó la información de entrega para limitar la exposición de datos personales. El esquema original está en [001-initial-schema.sql](../backend/migrations/001-initial-schema.sql) y la corrección incremental en [003-order-customer-and-driver.sql](../backend/migrations/003-order-customer-and-driver.sql); creación y serialización están en [app.js](../backend/app.js).
 
-No existe una interfaz, tipo o modelo explícito de `Pedido`; los atributos siguientes se infieren de los textos y controles de las pantallas. Los ejemplos de nombres, direcciones y pedidos aparecen como contenido de demostración y no permiten afirmar que correspondan a personas reales.
+Los importes monetarios se almacenan en centavos enteros de boliviano. “Obligatorio” refleja `NOT NULL`, claves o restricciones de la migración; la obligatoriedad condicional (por ejemplo, dirección solo en delivery) se valida en la API. Como la migración es aditiva para conservar datos previos, SQLite declara `cliente_id` nullable en `table_info`, pero triggers de inserción y actualización rechazan valores nulos y cuentas que no tengan rol `customer`.
 
 | Campo | Tipo de dato | Descripción | Obligatorio | Sensible |
 |---|---|---|---|---|
-| `codigo` | Cadena (inferido) | Identificador visible del pedido, por ejemplo `#BF-1024` o `#ORD-8492`. | Sí en la presentación; restricción de datos no especificada. | No |
-| `items` | Lista de `LineaPedido` (inferido) | Productos incluidos en el pedido y sus cantidades. | Sí para una compra; validación no especificada. | No |
-| `items.producto` | Cadena (inferido) | Nombre del producto o artículo solicitado. | Sí en los ejemplos mostrados. | No |
-| `items.cantidad` | Entero (inferido) | Unidades de cada artículo; el selector de personalización tiene mínimo visual de 1. | Sí en los ejemplos; validación integral no especificada. | No |
-| `items.personalizacion` | Lista/cadena (inferido) | Tamaño, extras o ingredientes que se agregan o se retiran. | No; depende de la selección del cliente. | Puede revelar preferencias alimentarias; sensibilidad no especificada. |
-| `items.precioUnitario` | Número decimal (inferido) | Precio mostrado para cada producto del carrito. | No especificado en el modelo; sí aparece en la interfaz. | Dato comercial |
-| `tipo` | Cadena/enum (inferido) | Modalidad del pedido: comer en el local, para llevar o delivery. | Sí para el flujo mostrado; restricción formal no especificada. | No |
-| `mesa` | Cadena o número (inferido) | Mesa asociada a pedidos de consumo en el local. | Condicional al tipo de pedido; validación no especificada. | No |
-| `estado` | Cadena/enum (inferido) | Situación operativa: nuevo, en cocina/preparación, listo o en camino. | Sí para seguimiento; transición permitida no especificada. | No |
-| `fechaHora` | Fecha/hora (inferido) | Hora o antigüedad mostrada para pedidos de cocina y panel. | No especificado. | No |
-| `nombreCliente` | Cadena (inferido) | Nombre mostrado para una entrega. | No especificado; aparece en la vista de delivery. | Sí: dato personal identificable. |
-| `direccionEntrega` | Cadena (inferido) | Dirección de destino del pedido a domicilio. | Condicional a delivery; validación no especificada. | Sí: dato personal y de ubicación. |
-| `repartidorAsignado` | Cadena (inferido) | Nombre/identificador de repartidor asignado al pedido. | Condicional a delivery; regla de asignación no especificada. | Sí: identifica a una persona trabajadora. |
-| `tiempoEstimadoEntrega` | Duración/fecha-hora (inferido) | Tiempo estimado que aparece en el seguimiento de delivery. | No especificado; puede estar ausente. | No |
-| `canalOrigen` | Cadena (inferido) | Canal o proveedor que aparece en pedidos de delivery (p. ej., UberEats o DoorDash). | No especificado. | Dato comercial |
-| `metodoPago` | Cadena/enum (inferido) | Selección visible: efectivo, tarjeta o QR. No se muestran PAN, CVV ni credenciales de pago. | Sí en la interacción del checkout (`required`). | No por sí solo; no se observan credenciales de pago. |
-| `estadoPago` | Cadena/enum (inferido) | Etiqueta de pago como “Pagado en línea” o “Pago contra entrega”. | No especificado como campo; visible en delivery. | Sí: información transaccional. |
-| `subtotal`, `impuesto`, `cargoServicio`, `total` | Número decimal (inferido) | Importes del resumen y total calculado en el carrito. | No especificado como modelo; aparecen en la interfaz. | Sí: información financiera/transaccional. |
+| `orders.id` | Entero, clave primaria | Identificador interno. | Sí | No |
+| `orders.code` | Texto único | Código público del pedido. | Sí | No |
+| `orders.created_by` | Entero, FK a `users` | Cuenta autenticada que registró el pedido; se conserva como autor operativo. | Sí | Dato operativo |
+| `orders.cliente_id` | Entero, FK a `users` | Cliente propietario. Debe referenciar una cuenta con rol `customer`; el backend asigna la identidad desde la sesión del cliente. | Sí | Identificador de cuenta |
+| `orders.repartidor_id` | Entero, FK a `users`, nullable | Repartidor asignado. Debe ser una cuenta activa con rol `delivery`. | No | Identifica trabajador |
+| `orders.order_type` | Enum textual | `dine_in`, `pickup` o `delivery`. | Sí | No |
+| `orders.status` | Enum textual | `pending`, `preparing`, `ready`, `out_for_delivery`, `delivered` o `cancelled`. | Sí | No |
+| `orders.payment_method` | Enum textual | `cash`, `card` o `qr`; no contiene datos de tarjeta. | Sí | Dato transaccional |
+| `orders.subtotal_cents`, `tax_cents`, `service_cents`, `total_cents` | Enteros no negativos | Importes calculados por servidor; total sujeto a restricción de suma. | Sí | Dato financiero |
+| `orders.created_at` | Fecha/hora textual | Fecha de creación en SQLite. | Sí, valor por defecto | No |
+| `order_items.id` | Entero, clave primaria | Identificador de la línea. | Sí | No |
+| `order_items.order_id`, `product_id` | Enteros, claves foráneas | Pedido y producto relacionado. | Sí | No |
+| `order_items.product_name` | Texto | Nombre conservado como instantánea histórica. | Sí | No |
+| `order_items.quantity` | Entero positivo | Unidades solicitadas y descontadas del stock del producto. | Sí | No |
+| `order_items.unit_price_cents`, `line_total_cents` | Enteros | Precio oficial de la compra y total de línea congelados al confirmar. | Sí | Dato financiero |
+| `personalizations.id`, `order_item_id`, `name`, `value`, `price_delta_cents` | Enteros/FK/texto | Opción solicitada; el backend calcula y conserva la diferencia de precio permitida. | Sí, si hay opción | Puede revelar preferencias alimentarias |
+| `delivery_info.id`, `order_id`, `customer_name`, `phone`, `address`, `created_at` | Entero/FK/texto/fecha | Información mínima de entrega, asociada de forma única al pedido. Solo se requiere para `delivery`. | Condicional | Sí: identificadores y ubicación |
+| `order_status_history.id`, `order_id`, `changed_by`, `old_status`, `new_status`, `changed_at` | Enteros/FK/texto/fecha | Auditoría de transiciones de estado. | Sí para cada cambio | Dato operativo asociado a usuario |
 
-El checkout muestra artículos, importes y método de pago en [code.html](../mockup/carrito_y_confirmaci_n/code.html#L145) y [code.html](../mockup/carrito_y_confirmaci_n/code.html#L236); el número y estado de confirmación son contenido demostrativo en [code.html](../mockup/carrito_y_confirmaci_n/code.html#L254). La vista de delivery muestra identificador, nombre, estado, dirección, estado de pago y estimación ([code.html](../mockup/panel_de_delivery/code.html#L194), [code.html](../mockup/panel_de_delivery/code.html#L203), [code.html](../mockup/panel_de_delivery/code.html#L206), [code.html](../mockup/panel_de_delivery/code.html#L207)); el panel de detalle muestra repartidor, artículos y total ([code.html](../mockup/panel_de_delivery/code.html#L281), [code.html](../mockup/panel_de_delivery/code.html#L282), [code.html](../mockup/panel_de_delivery/code.html#L292), [code.html](../mockup/panel_de_delivery/code.html#L315)). Cocina ilustra cantidad, personalización, hora y canal de origen ([code.html](../mockup/monitor_de_cocina_kds/code.html#L152), [code.html](../mockup/monitor_de_cocina_kds/code.html#L228), [code.html](../mockup/monitor_de_cocina_kds/code.html#L328)).
+`delivery_info` tiene clave foránea única por pedido y no se devuelve en el endpoint de cocina ni en la lista operativa del cajero. La API puede devolverla al administrador, al cliente propietario y al repartidor asignado. No se guardan PAN, CVV ni credenciales de pago.
 
-### Diagrama conceptual
+### Comparación conceptual y esquema implementado
+
+El diagrama del docente representa el modelo conceptual: un cliente tiene muchos pedidos, cada pedido pertenece a un cliente y puede tener cero o un repartidor; cada pedido contiene una o más líneas. El esquema real reutiliza `users` y sus roles `customer` y `delivery`; no crea tablas duplicadas `clientes` o `repartidores`.
+
+En SQLite, `cliente_id` y `repartidor_id` referencian `users(id)`. Una migración actualiza los registros previos y triggers impiden guardar un pedido sin cliente o asignar una cuenta de rol incorrecto. `created_by` sigue registrando qué sesión creó el pedido; no sustituye al propietario `cliente_id`. Los pedidos previos creados por personal se atribuyen a la cuenta ficticia de cliente de mostrador, conservando el autor en `created_by`.
+
+| Aspecto | Propuesta conceptual del docente | Implementación verificable |
+|---|---|---|
+| Cliente titular | Entidad Cliente separada | `users` con rol `customer`; FK `orders.cliente_id` obligatoria, validada por trigger |
+| Repartidor | Entidad Repartidor separada | `users` con rol `delivery`; FK opcional `orders.repartidor_id`, validada por trigger y backend |
+| Líneas | Una o varias por pedido | `order_items.order_id` es FK; la creación de pedidos exige al menos una línea |
+| Dirección | Atributo de pedido en el diagrama | Tabla `delivery_info` separada por privacidad, relacionada uno a uno con el pedido |
+
+### Diagrama relacional implementado
 
 ```mermaid
-classDiagram
-    class Pedido {
-        +String codigo
-        +String tipo
-        +String mesa
-        +String estado
-        +DateTime fechaHora
-        +String nombreCliente
-        +String direccionEntrega
-        +String repartidorAsignado
-        +String tiempoEstimadoEntrega
-        +String canalOrigen
-        +String metodoPago
-        +String estadoPago
-        +Decimal subtotal
-        +Decimal impuesto
-        +Decimal cargoServicio
-        +Decimal total
-    }
-    class LineaPedido {
-        +String producto
-        +Integer cantidad
-        +String personalizacion
-        +Decimal precioUnitario
-    }
-    Pedido "1" *-- "1..*" LineaPedido : contiene
+erDiagram
+  roles ||--o{ users : asigna
+  roles ||--o{ role_permissions : concede
+  permissions ||--o{ role_permissions : incluye
+  products ||--|| inventory : controla
+  products ||--o{ order_items : vendido_como
+  products ||--o{ inventory_movements : registra
+  users ||--o{ orders : "es_cliente (cliente_id)"
+  users o|--o{ orders : "es_repartidor (repartidor_id)"
+  users ||--o{ orders : "registra (created_by)"
+  orders ||--|{ order_items : contiene
+  order_items ||--o{ personalizations : configura
+  orders ||--o| delivery_info : entrega
+  orders ||--o{ order_status_history : audita
+  users ||--o{ order_status_history : cambia
 ```
 
-El diagrama es una propuesta conceptual inferida de la interfaz, no un esquema de base de datos existente.
+La relación de inventario representa unidades disponibles por producto terminado. No existe todavía una lista de ingredientes ni una receta que descuente insumos por composición.
 
 ## 3. Matriz CRUD y permisos
 
-Los nombres de rol que se ven en el panel son `Jefe / Admin`, `Cajero`, `Cocinero`, `Delivery` y `Cliente` ([index.html](../mockup/index.html#L139)). **Son etiquetas de acceso a pantallas, no roles autenticados ni permisos implementados.** La distribución de permisos de esta tabla es una propuesta para un backend futuro, basada en las funciones indicadas por esas pantallas.
+Los roles `admin`, `cashier`, `kitchen`, `delivery` y `customer` y sus permisos se cargan en SQLite; Express vuelve a comprobarlos en cada operación protegida. Los enlaces y pantallas no conceden autorización.
 
 | Entidad o dato | Crear | Leer | Actualizar | Eliminar |
 |---|---|---|---|---|
-| Pedido y artículos | Cliente (pedido propio); Cajero (venta asistida) — propuesta | Cliente (propio); Cajero y Admin; Cocinero (cola necesaria); Delivery (solo asignados) — propuesta | Cajero antes de enviar; Cocinero actualiza solo estados de preparación; Delivery solo estados de reparto asignado; Admin — propuesta | Admin mediante cancelación auditada; Cliente solo antes de confirmarse — propuesta |
-| Nombre y dirección de entrega | Cliente al solicitar delivery — propuesta | Cliente (propio); Delivery asignado; Cajero solo si es necesario; Admin — propuesta | Cliente antes de confirmar; Admin con motivo y auditoría — propuesta | Admin según política de retención; preferir anonimización cuando proceda — propuesta |
-| Repartidor asignado y estimación | Admin/operación asigna repartidor; sistema estima entrega — propuesta | Delivery asignado y personal operativo que lo requiera — propuesta | Admin/operación reasigna; repartidor actualiza hitos permitidos — propuesta | Admin al desasignar o cancelar; conservar auditoría según política — propuesta |
-| Estado del pedido | Sistema al crear el pedido — propuesta | Cliente (propio) y personal según su tarea — propuesta | Cocinero: preparación/listo; Delivery: estados de despacho asignado; Admin: corrección auditada — propuesta | No borrar físicamente como operación ordinaria; cancelar mediante flujo auditado — propuesta |
-| Método/estado de pago e importes | Sistema calcula importes; Cliente/Cajero selecciona método — propuesta | Cliente (propio), Cajero y Admin; no se requiere para Cocina — propuesta | Recalcular en servidor; estado conciliado por personal autorizado y auditado — propuesta | No eliminar aisladamente el registro financiero; aplicar política de retención — propuesta |
+| Catálogo de productos | Administrador | Público: productos activos; personal: catálogo | Administrador | Administrador: baja lógica; no se borra físicamente |
+| Inventario | Administrador al crear producto | Administrador | Administrador: ajuste auditado; pedido: descuento transaccional | No permitido directamente |
+| Pedido y líneas | Cliente, Cajero o Administrador | Admin/Cajero: operación; Cliente: propios por `cliente_id`; Cocina: cola mínima; Delivery: solo asignados por `repartidor_id`, también en `GET /api/orders/:id` | Cocina: `pending → preparing → ready`; Delivery asignado: `ready → out_for_delivery → delivered`; Administrador según transiciones | Sin borrado físico; Cajero/Administrador pueden cancelar en estados permitidos |
+| Personalizaciones | Cliente/Cajero/Administrador al crear pedido | Solo mediante vistas del pedido autorizadas; Cocina recibe lo necesario | No disponible después de confirmar | Se conserva en historial |
+| Nombre, teléfono y dirección de entrega | Cliente/Cajero/Administrador al crear pedido de delivery | Administrador; Cliente propietario; Delivery únicamente si su ID de sesión coincide con `repartidor_id`. No Cocina ni Cajero | Cliente titular o Cajero autor del pedido o Administrador, solo si sigue `pending` | No hay borrado individual; política de retención pendiente |
+| Usuarios | Administrador mediante API | Administrador mediante API | Administrador puede activar/desactivar; cambio de rol no disponible | Baja lógica; no se borra físicamente |
+| Roles y permisos | Migración/datos iniciales | Administrador puede consultar usuarios, no hay endpoint de permisos | No hay interfaz/endpoint para modificar permisos | Solo mediante migración controlada |
 
-**Estado real de las operaciones visibles:** la interfaz presenta acciones en más de un dominio; las siguientes interacciones modifican únicamente el DOM del navegador y no son CRUD persistente.
+### Estado funcional observado
 
-- **Crear pedido (simulado):** en POS, seleccionar un producto clona una línea y la añade al pedido visible en el DOM. En checkout, confirmar muestra un modal fijo, sin enviar ni registrar la orden. El control de checkout bloquea el modal si no hay artículos o método de pago seleccionado ([navigation.js](../mockup/navigation.js#L321), [navigation.js](../mockup/navigation.js#L333), [code.html](../mockup/carrito_y_confirmaci_n/code.html#L282), [code.html](../mockup/carrito_y_confirmaci_n/code.html#L355)). La personalización se escribe en `sessionStorage` ([code.html](../mockup/personalizar_hamburguesa/code.html#L346)); esto no equivale a persistencia de pedidos.
-- **Crear inventario (simulado):** el formulario requerido añade una fila a la tabla del navegador; no se guarda en una base de datos ni sobrevive como registro del sistema ([code.html](../mockup/gesti_n_de_inventario/code.html#L254), [code.html](../mockup/gesti_n_de_inventario/code.html#L268)).
-- **Leer:** se ven productos, pedidos, importes y datos de reparto definidos en el HTML; no se encontró una consulta a una fuente de datos.
-- **Actualizar (simulado/incompleto):** la interfaz cambia cantidades y puede mover tarjetas de cocina a otra columna en el DOM. Los controles de edición de inventario muestran un mensaje de “disponible”, sin actualizar el producto ([navigation.js](../mockup/navigation.js#L253), [navigation.js](../mockup/navigation.js#L299)).
-- **Eliminar (simulado):** el manejador de la interfaz elimina del DOM la fila, tarjeta o artículo que contiene el botón; no borra un registro persistente ([navigation.js](../mockup/navigation.js#L293), [navigation.js](../mockup/navigation.js#L296)).
-- **Persistencia:** no se encontró uso de `localStorage`, API, servidor ni base de datos. El único almacenamiento observado es `sessionStorage` para una personalización del navegador.
-- **Autorización:** no se encontró inicio de sesión, verificación de identidad, guardia de rutas ni autorización de servidor. Los cinco nombres de rol son enlaces a distintas páginas y no controles de acceso ([index.html](../mockup/index.html#L136), [index.html](../mockup/index.html#L143), [navigation.js](../mockup/navigation.js#L31)).
+- **Implementado y persistente:** catálogo activo, alta/edición/baja lógica de productos; consulta y ajuste de stock con movimientos auditados; creación de pedidos desde carrito/POS; precios e importes calculados en servidor; instantánea de precio en cada línea; decremento y reversión del inventario dentro de transacciones; cola de cocina; estados permitidos; listado de delivery asignado; métricas administrativas; cuentas, roles y sesiones.
+- **Interfaz conectada:** menú/selector de producto, carrito, inventario, POS, KDS, delivery y algunos indicadores. Los borradores del carrito y personalización permanecen en `sessionStorage` hasta confirmar; todavía no son pedidos persistentes.
+- **Disponible en API, sin pantalla de administración:** creación y desactivación de usuarios, listado de cuentas y asignación manual de delivery.
+- **Protección verificada para el requisito docente:** `GET /api/orders/:id` devuelve datos de entrega a un repartidor solo cuando el pedido es delivery y `orders.repartidor_id` coincide con la cuenta autenticada. Una cuenta ajena recibe `404` genérico sin campos personales; cambiar el ID de la URL no cambia esa comprobación.
+- **No implementado:** edición de datos de entrega después de iniciar la preparación, registro público de clientes, cambio de roles/permisos, eliminación física de historial, pasarela de pago, mapas/contacto reales, recetas de ingredientes y reportes/gráficos semanales basados en datos. Algunas acciones visuales de los paneles siguen siendo ilustrativas.
 
 ## 4. Regla indispensable de seguridad
 
-**Regla:** Todo valor controlable por una persona debe insertarse en la página como texto, nunca interpretarse como HTML ejecutable.
+**Regla:** los controles de autorización y el acceso a datos personales deben aplicarse en el servidor según identidad, rol y relación con el pedido; nunca deben depender de una pantalla, enlace o botón del frontend.
 
-**Por qué es indispensable.** El prototipo incluye una interfaz que acepta datos de un formulario. Si se convierten directamente en marcado HTML, un valor no confiable puede alterar la interfaz o ejecutar contenido en el contexto de la página. Además, el mismo principio debe mantenerse si esos datos pasan a compartirse o persistirse en una versión futura.
+**Por qué es indispensable.** Una dirección de entrega permite localizar a una persona. Un usuario que cambie manualmente una URL o una petición no debe obtener entregas ajenas ni información innecesaria para su función.
 
-**Código relacionado y estado.** En la pantalla de inventario se obtienen campos del formulario con `FormData` y se interpolan en `row.innerHTML` antes de agregar la fila al DOM ([code.html](../mockup/gesti_n_de_inventario/code.html#L262), [code.html](../mockup/gesti_n_de_inventario/code.html#L267)). La regla **no se cumple en esa interacción**. Es un riesgo potencial de inyección DOM, no evidencia de XSS almacenado o remoto: no se observó persistencia ni propagación del valor a otros usuarios.
+**Código relacionado.** Las sesiones se validan en [app.js](../backend/app.js); `GET /api/orders/:id` compara el `repartidor_id` del pedido con el ID procedente de la sesión antes de serializar la dirección. El endpoint de lista aplica el mismo filtro; cocina y cajero reciben proyecciones sin los datos de entrega. Las pruebas de [app.test.js](../backend/app.test.js) verifican las dos identidades de repartidor, la consulta individual y los intentos con IDs de pedido cambiados manualmente.
 
-**Aplicación recomendada.** Construir las celdas mediante `document.createElement` y colocar los valores con `textContent`; validar además tipos, límites y reglas de negocio. Cuando exista backend, repetir la validación en el servidor: la validación del navegador no es una frontera de seguridad.
+**Estado:** implementada y verificada en el prototipo local con pruebas automatizadas. Para el usuario permitido, la consulta devuelve la dirección; para el no asignado, responde `404` sin datos personales. Esto no demuestra el despliegue seguro de un servicio público. Las cuentas son de demostración, el `SESSION_SECRET` debe configurarse para un entorno persistente y el despliegue requiere HTTPS, almacenamiento protegido, respaldo y política de retención.
 
-Como riesgo de privacidad relacionado con la entidad principal, la información personal de una entrega debería consultarse solo por el cliente titular y por personal con necesidad operativa (por ejemplo, repartidor asignado). En el estado actual esto **no puede verificarse ni garantizarse**: los nombres de roles son etiquetas y las páginas son HTML navegable sin autenticación. La vista incluye un nombre y una dirección escritos en el HTML ([code.html](../mockup/panel_de_delivery/code.html#L194), [code.html](../mockup/panel_de_delivery/code.html#L203)); no se puede afirmar que sean datos reales. Si fueran datos reales y la maqueta se publicara, podrían quedar visibles para cualquier visitante del sitio.
+**Aplicación necesaria fuera del entorno local:** desplegar API tras HTTPS, provisionar secretos fuera del repositorio, conservar la base en almacenamiento persistente con acceso restringido, controlar sesiones y registros, mantener permisos mínimos y definir eliminación/anonimización de datos cuando expire su finalidad.
 
 ## 5. Duda técnica específica y respuesta
 
-**Pregunta:** ¿Los campos `name`, `category`, `stock` y `unit` del formulario de alta de inventario se insertan en la tabla como texto seguro o se interpretan como HTML?
+**Pregunta:** ¿puede un repartidor obtener la dirección de un pedido de otro repartidor cambiando el ID en `/api/orders/:id` o enviando otro ID de usuario desde el navegador?
 
-**Respuesta:** Se interpolan como cadenas dentro de `row.innerHTML` ([code.html](../mockup/gesti_n_de_inventario/code.html#L262), [code.html](../mockup/gesti_n_de_inventario/code.html#L267)). Por ello, si una persona introduce contenido que el navegador interpreta como marcado, existe un **riesgo potencial de inyección DOM**. El efecto observado se limita a la página abierta en esa sesión: no hay persistencia ni distribución a otros usuarios en el prototipo. No se afirma que exista XSS almacenado o remoto.
+**Respuesta:** no por las rutas comprobadas: el backend toma la identidad exclusivamente de la sesión, carga el pedido por su ID y solo después compara `repartidor_id` con el usuario autenticado. Un repartidor no asignado recibe `404` con el mensaje genérico `Pedido no encontrado.`; ni la dirección, teléfono ni nombre se serializan. Las pruebas también repiten la petición con IDs de pedidos que sí existen, asignados a la cuenta A. Además, los precios se obtienen del catálogo y los importes se calculan en servidor.
 
-**Recomendación concreta:** sustituir la interpolación por nodos de texto (`textContent`) y aplicar validación de servidor al implementar persistencia. En producción, agregar además autenticación y autorización del lado servidor para restringir la edición del inventario y proteger los datos personales de pedidos; las rutas estáticas del frontend no sustituyen esos controles.
+**Prueba reproducible A/B:** ejecutar `npm run test:assignment`. La prueba inicia sesión con `repartidor-a@burgerflow.local` y `repartidor-b@burgerflow.local`, crea dos pedidos ficticios y los asigna solo a A. A obtiene `200` y los datos de entrega; B consulta exactamente las mismas URLs, incluso añadiendo un `userId` ajeno en query, y obtiene `404` sin datos personales. Las cuentas usan la contraseña local configurada por `DEMO_PASSWORD`; el test automático usa una contraseña aislada propia y una SQLite en memoria.
+
+**Riesgo residual:** datos de demostración y pantallas no conectadas no deben interpretarse como datos reales o control de acceso. GitHub Pages puede exponer archivos estáticos, pero no ejecuta el backend; no se debe publicar una base SQLite con datos personales. La asignación automática al primer repartidor activo es solo una regla de demostración y requiere una política operativa real.
+
+**Recomendación concreta:** mantener el filtro de autorización en cada consulta/actualización del servidor, devolver solo los campos indispensables, no permitir que el navegador envíe precios oficiales, y añadir pruebas de regresión cuando cambien las rutas o permisos.
 
 ## 6. Conclusión
 
-`Pedido` es la entidad de negocio que conecta las vistas principales, pero sus campos y estados solo pueden inferirse de la maqueta. El workspace inspeccionado no contiene una aplicación React ni backend, base de datos, autenticación o CRUD persistente. Hay controles de interfaz que simulan altas, cambios y eliminaciones locales; la personalización es el único dato que se guarda en `sessionStorage`. Antes de usar datos reales, deben implementarse autorización de servidor por usuario/rol y alcance del pedido, protección de datos personales, validación de reglas de negocio y renderizado seguro de entradas. Los nombres y direcciones mostrados deben confirmarse como datos sintéticos antes de publicar la maqueta.
+BurgerFlow pasó de una maqueta estática a un prototipo local verificable con SQLite persistente, operaciones CRUD selectivas, roles, sesiones, auditoría y flujos reales de inventario y pedidos. Pedido es la entidad central; cada fila identifica al cliente titular y al autor operativo, y opcionalmente al repartidor asignado. La prueba A/B y las 12 pruebas automatizadas verifican la migración, las claves foráneas, la exposición limitada de direcciones y la denegación para repartidores no asignados. Antes de usar datos reales o publicar el servicio se requieren HTTPS, secretos administrados, almacenamiento y respaldos seguros, reglas de retención y una revisión de seguridad del despliegue.
+
+## Referencias de implementación
+
+- [Autenticación y autorización de sesión](../backend/app.js#L81)
+- [CRUD de productos e inventario](../backend/app.js#L166)
+- [Pedidos, vistas por rol, consulta individual y cálculo transaccional](../backend/app.js#L286)
+- [Consulta individual del pedido y autorización del repartidor asignado](../backend/app.js#L317)
+- [Actualización protegida de datos de entrega](../backend/app.js#L443)
+- [Esquema de pedidos, líneas y entrega](../backend/migrations/001-initial-schema.sql#L46)
+- [Migración de cliente titular y repartidor asignado](../backend/migrations/003-order-customer-and-driver.sql)
+- [Migración de sesiones](../backend/migrations/002-sqlite-session-store.sql)
+- [Inicialización y datos ficticios](../backend/db.js)
+- [Prueba de acceso individual asignado/no asignado](../backend/app.test.js#L169)
+- [Prueba de migración y claves foráneas](../backend/app.test.js#L200)
+- [Integración de carrito, POS, cocina y reparto](../mockup/api-client.js#L215)
+- [Listado protegido y cambios de estado de reparto](../mockup/api-client.js#L718)
+- [Pantalla de delivery](../mockup/panel_de_delivery/code.html#L175)
+- [Guía de ejecución](../README.md)

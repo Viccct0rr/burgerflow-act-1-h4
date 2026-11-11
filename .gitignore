@@ -4,3 +4,8 @@ Thumbs.db
 node_modules/
 dist/
 build/
+.env
+.env.*
+!.env.example
+backend/data/
+npm-debug.log*

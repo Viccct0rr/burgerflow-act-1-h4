@@ -1,0 +1,28 @@
+{
+  "name": "burgerflow-prototype",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Prototipo local de BurgerFlow con API Express y SQLite",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "node --watch backend/server.js",
+    "test": "node --test",
+    "test:assignment": "node --test --test-name-pattern=\"only the assigned delivery account\" backend/app.test.js",
+    "db:migrate": "node backend/migrate.js",
+    "db:seed": "node backend/seed.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.119.0",
+    "bcryptjs": "^3.0.2",
+    "better-sqlite3": "^12.2.0",
+    "dotenv": "^16.6.1",
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.0.1",
+    "express-session": "^1.18.2",
+    "helmet": "^8.1.0"
+  },
+  "devDependencies": {
+    "supabase": "^3.0.0",
+    "supertest": "^7.1.1"
+  }
+}

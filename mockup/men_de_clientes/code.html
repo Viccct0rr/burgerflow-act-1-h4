@@ -26,6 +26,47 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
+        @media (max-width: 640px) {
+            body > header {
+                flex-wrap: wrap;
+                gap: 8px;
+                padding-left: 12px;
+                padding-right: 12px;
+            }
+            body > header > div:first-child {
+                flex: 1 1 100%;
+                min-width: 0;
+                justify-content: space-between;
+                gap: 8px;
+            }
+            body > header > div:first-child > div {
+                min-width: 0;
+                flex: 1;
+            }
+            body > header input {
+                width: 100%;
+                min-width: 0;
+            }
+            body > header > div:last-child {
+                width: 100%;
+                min-width: 0;
+                justify-content: flex-end;
+                gap: 4px;
+            }
+            body > main {
+                min-width: 0;
+                max-width: 100%;
+            }
+            body > main > nav {
+                width: 100%;
+                max-width: 100%;
+                min-width: 0;
+            }
+            body > main > nav > div {
+                width: max-content;
+                min-width: max-content;
+            }
+        }
     </style>
 <!-- Tailwind CSS -->
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
@@ -184,7 +225,7 @@
 </nav>
 <!-- Product Grid -->
 <section class="px-margin-mobile md:px-margin-desktop py-lg">
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter" id="menuProductGrid">
 <!-- Product Card 1 -->
 <article data-product data-category="hamburguesas" class="bg-surface-container-lowest rounded-xl shadow-[0px_4px_12px_rgba(33,33,33,0.08)] hover:shadow-[0px_8px_24px_rgba(33,33,33,0.12)] transition-shadow overflow-hidden flex flex-col group">
 <div class="h-48 w-full bg-surface-container relative overflow-hidden">
@@ -265,17 +306,15 @@
 
 <script>
     const categoryButtons = document.querySelectorAll('.category-button');
-    const products = document.querySelectorAll('[data-product]');
     const search = document.getElementById('menuSearch');
     function updateMenu() {
         const category = document.querySelector('.category-button.bg-primary-container')?.dataset.category || 'all';
         const query = (search?.value || '').trim().toLowerCase();
-        const categoryProducts = [...products].filter((product) => category === 'all' || product.dataset.category === category);
-        const effectiveCategory = categoryProducts.length ? category : 'all';
+        const products = document.querySelectorAll('#menuProductGrid [data-product]');
         products.forEach((product) => {
-            const matchesCategory = effectiveCategory === 'all' || product.dataset.category === effectiveCategory;
+            const matchesCategory = category === 'all' || product.dataset.category === category;
             const matchesSearch = !query || product.textContent.toLowerCase().includes(query);
-            product.hidden = !(matchesCategory && matchesSearch);
+            product.style.display = matchesCategory && matchesSearch ? '' : 'none';
         });
         let emptyState = document.getElementById('menuEmptyState');
         if (!emptyState) {
@@ -283,10 +322,11 @@
             emptyState.id = 'menuEmptyState';
             emptyState.className = 'col-span-full hidden py-lg text-center text-tertiary';
             emptyState.textContent = 'No encontramos productos con esos filtros.';
-            products[0]?.parentElement.appendChild(emptyState);
+            document.getElementById('menuProductGrid')?.appendChild(emptyState);
         }
-        emptyState.classList.toggle('hidden', products.some((product) => !product.hidden));
+        emptyState.classList.toggle('hidden', [...products].some((product) => product.style.display !== 'none'));
     }
+    window.updateMenu = updateMenu;
     categoryButtons.forEach((button) => button.addEventListener('click', () => {
         categoryButtons.forEach((item) => item.classList.remove('bg-primary-container', 'text-on-primary-container', 'shadow-md'));
         categoryButtons.forEach((item) => item.classList.add('bg-surface-container-low', 'text-on-surface'));
@@ -297,4 +337,5 @@
     search?.addEventListener('input', updateMenu);
 </script>
 <script src="../navigation.js?v=3"></script>
+<script src="../api-client.js"></script>
 </body></html>

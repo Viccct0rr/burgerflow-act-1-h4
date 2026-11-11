@@ -113,6 +113,37 @@
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #e2e2e2; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: #c8c6c5; }
+        @media (max-width: 767px) {
+            html, body { width: 100%; max-width: 100%; overflow-x: hidden; }
+            body > main {
+                width: 100%;
+                max-width: 100vw;
+                min-width: 0;
+                margin-left: 0 !important;
+            }
+            body > main > header {
+                height: auto !important;
+                min-height: 72px;
+                flex-wrap: wrap;
+                gap: 8px;
+                padding: 12px !important;
+            }
+            body > main > header > div:first-child { flex: 1; min-width: 0; }
+            body > main > header > div:last-child { gap: 4px; }
+            body > main > div {
+                width: 100%;
+                min-width: 0;
+                overflow-x: hidden;
+            }
+            body > main > div > section { width: 100%; min-width: 0; }
+            body > main > div > section:first-child > div:first-child {
+                max-width: 100%;
+                overflow-x: auto;
+            }
+            body > main > div > section:first-child > .grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
     </style>
 </head>
 <body class="bg-surface font-body-md text-body-md text-on-surface h-screen overflow-hidden flex selection:bg-primary selection:text-on-primary">
@@ -387,4 +418,5 @@
 
 
 <script src="../navigation.js?v=3"></script>
+<script src="../api-client.js"></script>
 </body></html>

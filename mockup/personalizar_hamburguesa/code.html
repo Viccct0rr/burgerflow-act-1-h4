@@ -267,7 +267,7 @@
 <button class="w-14 h-full flex items-center justify-center text-on-surface hover:text-primary transition-colors hover:bg-surface-container rounded-l-md">
 <span class="material-symbols-outlined">remove</span>
 </button>
-<input class="w-16 h-full text-center bg-transparent border-none font-headline-md text-headline-md text-on-surface focus:ring-0 p-0 m-0" min="1" type="number" value="1">
+<input class="w-16 h-full text-center bg-transparent border-none font-headline-md text-headline-md text-on-surface focus:ring-0 p-0 m-0" max="25" min="1" type="number" value="1">
 <button class="w-14 h-full flex items-center justify-center text-on-surface hover:text-primary transition-colors hover:bg-surface-container rounded-r-md">
 <span class="material-symbols-outlined">add</span>
 </button>
@@ -321,15 +321,18 @@
             const quantityButtons = quantityInput?.parentElement.querySelectorAll('button');
             quantityButtons?.[0].addEventListener('click', () => {
                 quantityInput.value = Math.max(1, Number(quantityInput.value) - 1);
+                quantityInput.dispatchEvent(new Event('input', { bubbles: true }));
             });
             quantityButtons?.[1].addEventListener('click', () => {
-                quantityInput.value = Number(quantityInput.value) + 1;
+                quantityInput.value = Math.min(25, Number(quantityInput.value) + 1);
+                quantityInput.dispatchEvent(new Event('input', { bubbles: true }));
             });
         });
     </script>
 
 
 <script src="../navigation.js?v=3"></script>
+<script src="../api-client.js"></script>
 <script>
         const customizationTotal = document.querySelector('button:last-child .font-headline-md');
         const customizationQuantity = document.querySelector('input[type="number"]');
@@ -341,6 +344,7 @@
             if (customizationTotal) customizationTotal.textContent = `Total: Bs ${total.toFixed(2)}`;
         }
         document.querySelectorAll('input[name="size"], input[type="checkbox"]').forEach((input) => input.addEventListener('change', updateCustomizationTotal));
+        window.addEventListener('burgerflow:product-loaded', updateCustomizationTotal);
         customizationQuantity?.addEventListener('input', updateCustomizationTotal);
         document.getElementById('addToCartBtn')?.addEventListener('click', () => {
             sessionStorage.setItem('burgerflowCustomization', JSON.stringify({

@@ -265,7 +265,7 @@
 <span class="text-on-surface">Comer en el local</span>
 </div>
 <div class="flex justify-between font-label-md text-label-md">
-<span class="text-tertiary">Total Pagado:</span>
+<span class="text-tertiary">Total:</span>
 <span class="text-on-surface font-bold">Bs 21.02</span>
 </div>
 </div>
@@ -277,87 +277,6 @@
             </button>
 </div>
 </div>
-<script>
-        // Simple interaction for demo purposes to show the confirmation overlay
-        document.getElementById('confirmOrderBtn').addEventListener('click', function() {
-            const overlay = document.getElementById('confirmationOverlay');
-            const modal = overlay.querySelector('div');
-            
-            overlay.classList.remove('hidden');
-            // Small delay to allow display:block to apply before animating opacity
-            setTimeout(() => {
-                overlay.classList.remove('opacity-0');
-                modal.classList.remove('scale-95');
-                modal.classList.add('scale-100');
-            }, 10);
-        });
-
-        document.getElementById('closeOverlayBtn').addEventListener('click', function() {
-            const overlay = document.getElementById('confirmationOverlay');
-            const modal = overlay.querySelector('div');
-            
-            overlay.classList.add('opacity-0');
-            modal.classList.remove('scale-100');
-            modal.classList.add('scale-95');
-            
-            setTimeout(() => {
-                overlay.classList.add('hidden');
-            }, 300);
-        });
-
-        document.getElementById('continueShoppingBtn').addEventListener('click', function() {
-            window.location.href = '../men_de_clientes/code.html';
-        });
-    </script>
-
-
 <script src="../navigation.js?v=3"></script>
-<script>
-        const cartMain = document.querySelector('main');
-        const cartItems = () => [...cartMain.querySelectorAll('.group')].filter((item) => item.querySelector('button[aria-label="Increase quantity"]'));
-        const money = (value) => `Bs ${value.toFixed(2)}`;
-        function updateCart() {
-            const items = cartItems();
-            let subtotal = 0;
-            items.forEach((item) => {
-                const priceText = item.querySelector('h2 + span')?.textContent.trim();
-                const increaseButton = item.querySelector('button[aria-label="Increase quantity"]');
-                const quantity = Number(increaseButton?.previousElementSibling?.textContent.trim()) || 0;
-                subtotal += Number(priceText?.replace('Bs', '').trim()) * quantity;
-            });
-            const tax = subtotal * 0.08;
-            const service = items.length ? 0.5 : 0;
-            const total = subtotal + tax + service;
-            const summary = document.getElementById('confirmOrderBtn').parentElement;
-            const values = [...summary.querySelectorAll('.justify-between span:last-child')];
-            if (values.length >= 4) {
-                values[0].textContent = money(subtotal);
-                values[1].textContent = money(tax);
-                values[2].textContent = money(service);
-                values[3].textContent = money(total);
-            }
-            const payButton = document.getElementById('confirmOrderBtn');
-            payButton.disabled = !items.length;
-            payButton.classList.toggle('opacity-50', !items.length);
-            payButton.classList.toggle('cursor-not-allowed', !items.length);
-            let empty = document.getElementById('emptyCartMessage');
-            if (!empty) {
-                empty = document.createElement('p');
-                empty.id = 'emptyCartMessage';
-                empty.className = 'hidden text-center text-tertiary p-md';
-                empty.textContent = 'Tu carrito está vacío.';
-                cartItems().at(-1)?.parentElement?.appendChild(empty);
-            }
-            empty.classList.toggle('hidden', Boolean(items.length));
-        }
-        cartMain.addEventListener('click', () => setTimeout(updateCart, 0));
-        const paymentField = document.getElementById('paymentMethod');
-        document.getElementById('confirmOrderBtn').addEventListener('click', (event) => {
-            if (!cartItems().length || !paymentField.value) {
-                event.preventDefault();
-                event.stopImmediatePropagation();
-            }
-        }, true);
-        updateCart();
-    </script>
+<script src="../api-client.js"></script>
 </body></html>

@@ -167,11 +167,13 @@
     const toast = document.getElementById('toast');
     let toastTimer;
     function showToast(message) { toast.textContent = message; toast.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => toast.classList.remove('show'), 2200); }
-    document.querySelectorAll('[data-action]').forEach((button) => button.addEventListener('click', () => { if (button.dataset.route) window.location.href = button.dataset.route; else showToast(`${button.dataset.action}: disponible en el siguiente paso`); }));
+    const actionRoutes = { 'nuevo producto':'gesti_n_de_inventario/code.html', 'gestionar inventario':'gesti_n_de_inventario/code.html', 'inventario':'gesti_n_de_inventario/code.html', 'abrir cocina':'monitor_de_cocina_kds/code.html', 'ver delivery':'panel_de_delivery/code.html', 'todos los pedidos':'carrito_y_confirmaci_n/code.html' };
+    document.querySelectorAll('[data-action]').forEach((button) => button.addEventListener('click', () => { const route = button.dataset.route || actionRoutes[button.dataset.action.toLowerCase()]; if (route) window.location.href = route; else showToast(`${button.dataset.action}: sigue siendo una función de demostración`); }));
     document.querySelectorAll('.role-card').forEach((button) => button.addEventListener('click', () => { window.location.href = button.dataset.route; }));
     document.querySelectorAll('.nav button').forEach((button) => button.addEventListener('click', () => { if (button.dataset.route) { window.location.href = button.dataset.route; return; } document.querySelector('.nav button.active').classList.remove('active'); button.classList.add('active'); showToast(`Sección: ${button.dataset.label}`); document.getElementById('sidebar').classList.remove('open'); }));
     document.getElementById('menuButton').addEventListener('click', () => document.getElementById('sidebar').classList.toggle('open'));
     document.getElementById('searchInput').addEventListener('input', (event) => { if (event.target.value.length > 2) showToast(`Buscando “${event.target.value}”`); });
   </script>
+  <script src="api-client.js"></script>
 </body>
 </html>

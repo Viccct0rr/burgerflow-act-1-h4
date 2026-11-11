@@ -86,6 +86,10 @@
     toast.feedbackTimer = setTimeout(() => toast.remove(), 2200);
   }
 
+  function setVisible(node, visible) {
+    node.style.display = visible ? '' : 'none';
+  }
+
   const currentPath = window.location.pathname;
   const navigationTargets = {
     dashboard: '../index.html', payments: '../panel_de_cajero_pos/code.html',
@@ -129,7 +133,6 @@
     backdrop.setAttribute('aria-label', 'Cerrar navegación');
     document.body.appendChild(backdrop);
     const closeNavigation = () => { shell.classList.remove('bf-open'); backdrop.classList.remove('bf-visible'); closeButton.style.display = 'none'; toggle.setAttribute('aria-expanded', 'false'); toggle.focus(); };
-    toggle.addEventListener('click', () => { shell.classList.toggle('bf-open'); backdrop.classList.toggle('bf-visible'); });
     backdrop.addEventListener('click', closeNavigation);
     const closeButton = document.createElement('button');
     closeButton.className = 'bf-close-navigation';
@@ -142,9 +145,15 @@
     toggle.setAttribute('aria-expanded', 'false');
     shell.id = 'bf-main-navigation';
     closeButton.addEventListener('click', closeNavigation);
+    toggle.addEventListener('click', () => {
+      const open = !shell.classList.contains('bf-open');
+      shell.classList.toggle('bf-open', open);
+      backdrop.classList.toggle('bf-visible', open);
+      toggle.setAttribute('aria-expanded', String(open));
+      closeButton.style.display = open ? 'grid' : 'none';
+    });
     document.addEventListener('keydown', (event) => { if (event.key === 'Escape') closeNavigation(); });
     shell.querySelectorAll('a, button').forEach((item) => item.addEventListener('click', closeNavigation));
-    toggle.addEventListener('click', () => { const open = shell.classList.contains('bf-open'); toggle.setAttribute('aria-expanded', open ? 'false' : 'true'); closeButton.style.display = open ? 'none' : 'grid'; });
   }
 
   const style = document.createElement('style');
@@ -194,11 +203,11 @@
       body > nav:not(.persistent-sidebar) { transform:translateX(-105%); transition:transform .2s ease; }
       body > nav:not(.persistent-sidebar).bf-open { transform:translateX(0); }
       body > main { margin-left:0 !important; }
-      .bf-mobile-toggle { position:fixed; top:12px; left:12px; z-index:80; width:44px; height:44px; display:grid; place-items:center; border:1px solid #e2e2e2; border-radius:10px; color:#1a1c1c; background:#fff; box-shadow:0 4px 12px rgba(33,33,33,.12); }
+      .bf-mobile-toggle { position:fixed; top:12px; left:12px; z-index:80; width:44px; height:44px; display:grid !important; place-items:center; border:1px solid #e2e2e2; border-radius:10px; color:#1a1c1c; background:#fff; box-shadow:0 4px 12px rgba(33,33,33,.12); }
       .bf-close-navigation { display:none; }
       .bf-standard-sidebar .bf-close-navigation { position:absolute; top:12px; right:12px; }
       .bf-nav-backdrop { position:fixed; inset:0; z-index:49; border:0; background:rgba(26,28,28,.38); }
-      .bf-nav-backdrop.bf-visible { display:block; }
+      .bf-nav-backdrop.bf-visible { display:block !important; }
       .bf-standard-sidebar.bf-open .bf-close-navigation { display:grid !important; place-items:center; width:44px; height:44px; border:0; border-radius:8px; color:#fff; background:transparent; }
     }
   `;
@@ -215,20 +224,26 @@
     if (label.includes('volver al menú') || label.includes('volver al menu') || label.includes('inicio')) destination = routes.menu;
     if (label.includes('personalizar')) destination = routes.personalizar;
     if (iconName === 'shopping_cart') destination = routes.shopping_cart;
-    if (label.includes('agregar al carrito')) destination = routes.agregar_al_carrito;
-    if (!destination) return;
+    if (label.includes('agregar al carrito')) return;
+    const isPersonalize = label.includes('personalizar');
+    if (!destination && !isPersonalize) return;
     button.addEventListener('click', () => {
-      window.location.href = destination;
+      const productId = button.closest('[data-product]')?.dataset.productId;
+      const target = isPersonalize && productId
+        ? `${routes.personalizar}?product=${encodeURIComponent(productId)}`
+        : destination;
+      window.location.href = target;
     });
   });
 
   document.querySelectorAll('.category-button').forEach((categoryButton) => {
     categoryButton.addEventListener('click', () => {
+      if (typeof window.updateMenu === 'function') return;
       const category = categoryButton.dataset.category;
       document.querySelectorAll('.category-button').forEach((item) => item.classList.remove('bg-primary-container', 'text-on-primary-container'));
       categoryButton.classList.add('bg-primary-container', 'text-on-primary-container');
       document.querySelectorAll('[data-product]').forEach((product) => {
-        product.hidden = category !== 'all' && product.dataset.category !== category;
+        setVisible(product, category === 'all' || product.dataset.category === category);
       });
     });
   });
@@ -238,7 +253,7 @@
     const query = menuSearch.value.trim().toLowerCase();
     if (typeof updateMenu === 'function') { updateMenu(); return; }
     document.querySelectorAll('[data-product]').forEach((product) => {
-      product.hidden = Boolean(query) && !product.textContent.toLowerCase().includes(query);
+      setVisible(product, !query || product.textContent.toLowerCase().includes(query));
     });
   });
 
@@ -249,12 +264,6 @@
   document.querySelectorAll('button').forEach((button) => {
     const icon = button.querySelector('.material-symbols-outlined')?.textContent.trim().toLowerCase();
     const label = button.textContent.trim().toLowerCase();
-    if (icon === 'edit') {
-      button.addEventListener('click', () => feedback('Edición disponible para este producto'));
-    }
-    if (label.includes('agregar producto') || label.includes('nuevo producto')) {
-      button.addEventListener('click', () => feedback('Formulario de nuevo producto disponible en el siguiente paso'));
-    }
     if (label === 'anterior' || label === 'siguiente') {
       button.addEventListener('click', () => feedback(label === 'anterior' ? 'Página anterior' : 'Página siguiente'));
     }
@@ -278,35 +287,6 @@
     }
   });
 
-  document.querySelectorAll('button').forEach((button) => {
-    const icon = button.querySelector('.material-symbols-outlined')?.textContent.trim().toLowerCase();
-    const label = button.textContent.trim().toLowerCase();
-    if (icon === 'add' || icon === 'remove') {
-      button.addEventListener('click', () => {
-        const control = button.parentElement;
-        const value = control?.querySelector('span:not(.material-symbols-outlined)');
-        if (!value || !/^\d+$/.test(value.textContent.trim())) return;
-        const next = Math.max(1, Number(value.textContent.trim()) + (icon === 'add' ? 1 : -1));
-        value.textContent = String(next);
-      });
-    }
-    if (icon === 'delete') {
-      button.addEventListener('click', () => {
-        const row = button.closest('tr, .group, article');
-        if (row) row.remove();
-      });
-    }
-    if (label.includes('aceptar') || label.includes('listo para despacho')) {
-      button.addEventListener('click', () => {
-        const card = button.closest('article');
-        const nextColumn = card?.parentElement?.parentElement?.nextElementSibling?.querySelector('div.flex-1');
-        if (card && nextColumn) nextColumn.appendChild(card);
-        button.disabled = true;
-        button.textContent = 'Actualizado';
-      });
-    }
-  });
-
   const posSearch = document.querySelector('input[placeholder="Buscar producto, código..."]');
   const posSection = posSearch?.closest('main')?.querySelector('section');
   const posProducts = posSection ? [...posSection.querySelectorAll('.group')] : [];
@@ -314,24 +294,9 @@
   posSearch?.addEventListener('input', () => {
     const query = posSearch.value.trim().toLowerCase();
     posProducts.forEach((product) => {
-      product.hidden = query && !product.textContent.toLowerCase().includes(query);
+      setVisible(product, !query || product.textContent.toLowerCase().includes(query));
     });
   });
-
-  posProducts.forEach((product) => product.addEventListener('click', () => {
-    if (product.querySelector('.bg-error')) return;
-    const orderList = orderSection?.querySelector('.overflow-y-auto');
-    const template = orderList?.querySelector('.group');
-    if (!orderList || !template) return;
-    const item = template.cloneNode(true);
-    const title = product.querySelector('h3')?.textContent.trim();
-    const price = product.querySelector('p')?.textContent.trim();
-    const itemTitle = item.querySelector('h4');
-    const itemPrice = item.querySelector('.font-semibold');
-    if (itemTitle) itemTitle.textContent = title || 'Producto';
-    if (itemPrice) itemPrice.textContent = price || 'Bs 0.00';
-    orderList.appendChild(item);
-  }));
 
   posSection?.querySelectorAll('button').forEach((categoryButton) => {
     categoryButton.addEventListener('click', () => {
@@ -341,18 +306,13 @@
       posProducts.forEach((product) => {
         const text = product.textContent.toLowerCase();
         const match = category.includes('hamburg') ? /burger|chicken/.test(text) : category.includes('acompa') ? /papas|fries/.test(text) : category.includes('bebida') ? /drink|shake|coke/.test(text) : category.includes('postre') ? /postre|dessert|cake/.test(text) : true;
-        product.hidden = !match;
+        setVisible(product, match);
       });
     });
   });
 
   document.querySelectorAll('button').forEach((button) => {
     const label = button.textContent.trim().toLowerCase();
-    if (label.includes('enviar a cocina')) {
-      button.addEventListener('click', () => {
-        window.location.href = routes.kitchen;
-      });
-    }
     if (/\b(efectivo|tarjeta|app)\b/.test(label)) {
       button.addEventListener('click', () => {
         button.parentElement?.querySelectorAll('button').forEach((item) => item.classList.remove('border-primary', 'text-primary'));
@@ -365,7 +325,7 @@
   inventorySearch?.addEventListener('input', () => {
     const query = inventorySearch.value.trim().toLowerCase();
     inventorySearch.closest('main')?.querySelectorAll('tbody tr').forEach((row) => {
-      row.hidden = query && !row.textContent.toLowerCase().includes(query);
+      setVisible(row, !query || row.textContent.toLowerCase().includes(query));
     });
   });
 
@@ -373,7 +333,7 @@
   deliverySearch?.addEventListener('input', () => {
     const query = deliverySearch.value.trim().toLowerCase();
     deliverySearch.closest('div')?.parentElement?.parentElement?.querySelectorAll('.cursor-pointer').forEach((card) => {
-      card.hidden = query && !card.textContent.toLowerCase().includes(query);
+      setVisible(card, !query || card.textContent.toLowerCase().includes(query));
     });
   });
 
@@ -384,7 +344,7 @@
       const panel = button.closest('div.sticky')?.parentElement;
       const status = label.startsWith('todas') ? '' : label.startsWith('asignadas') ? 'asignada' : 'en camino';
       panel?.querySelectorAll('.cursor-pointer').forEach((card) => {
-        card.hidden = Boolean(status) && !card.textContent.toLowerCase().includes(status);
+        setVisible(card, !status || card.textContent.toLowerCase().includes(status));
       });
     });
   });
