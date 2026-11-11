@@ -7,6 +7,24 @@ Prototipo académico de gestión de restaurante. Conserva las pantallas HTML/CSS
 - Node.js 20.19+ (validado con Node.js 24).
 - npm.
 
+## Estructura del repositorio
+
+```text
+.
+├── .github/workflows/          # Verificación automática de las pruebas
+├── backend/                    # API Express, SQLite, sesiones y migraciones
+├── docs/                       # Informes técnicos en Markdown y PDF
+├── mockup/                     # Páginas BurgerFlow, estilos y cliente de interfaz
+├── supabase/                   # Configuración de Supabase CLI para Cloud
+├── .env.example                # Plantilla de configuración, sin secretos reales
+├── package.json                # Scripts y dependencias del proyecto
+├── package-lock.json           # Versiones reproducibles de dependencias
+├── README.md                   # Arquitectura, instalación y uso
+└── SUPABASE_SETUP.md           # Estado y pasos de integración Supabase
+```
+
+La interfaz permanece en `mockup/` porque Express la publica directamente; `backend/` conserva la API y su SQLite local. No se trasladan estos directorios a `src/` o `public/`, nombres que corresponderían a otra arquitectura y podrían romper rutas existentes. GitHub ordena las entradas de cada directorio automáticamente.
+
 ## Preparación Supabase Cloud
 
 La CLI y `@supabase/supabase-js` están instalados para una integración futura. BurgerFlow continúa usando SQLite; el cliente Supabase aún no está conectado al servidor y no se han creado tablas ni migraciones remotas. Revisa el [informe técnico en PDF](docs/supabase-cloud-report.pdf), su [fuente Markdown](docs/supabase-cloud-report.md) y la [guía de configuración](SUPABASE_SETUP.md). La autenticación CLI y la clave publishable local siguen pendientes.
